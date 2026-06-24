@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSMOS - Plataforma</title>
+
+    <style>
+        /* Reset de Estilos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 50%, #0a0a2e 100%);
+            color: white;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Efeito de Brilho de Fundo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 0, 127, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 0%, rgba(255, 100, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Container Principal (Desktop) */
+        .container-inicial {
+            text-align: center;
+            z-index: 1;
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .container-inicial h1 {
+            margin-bottom: 40px;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff006e, #8338ec, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: lowercase;
+            letter-spacing: -1px;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 0, 110, 0.4)); }
+            50% { filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.4)); }
+        }
+
+        /* Grid de Botões Iniciais */
+        .botoes-iniciais {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Customização dos Inputs */
+        input {
+            background-color: rgba(20, 20, 20, 0.8);
+            color: white;
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            padding: 14px;
+            margin: 8px 0;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ff006e;
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Estilo Base dos Botões */
+        button {
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 32px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            box-shadow: 0 6px 20px rgba(255, 0, 110, 0.6);
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Cores Alternativas dos Botões */
+        .btn-cadastro {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+        .btn-cadastro:hover {
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6);
+        }
+
+        .btn-sobre {
+            background: linear-gradient(135deg, #ff9500 0%, #ff6b35 100%);
+            box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
+        }
+        .btn-sobre:hover {
+            box-shadow: 0 6px 20px rgba(255, 149, 0, 0.6);
+        }
+
+        /* Estrutura dos Modais (Desktop) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #131324 0%, #0d1326 100%);
+            padding: 40px;
+            border: 2px solid #00d4ff;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(255, 0, 110, 0.3);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h2 {
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 26px;
+        }
+
+        .close {
+            color: #ff006e;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #ff4d7d;
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group p {
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #00d4ff;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+        }
+
+        .modal-buttons button.btn-cancelar {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            box-shadow: none;
+        }
+
+        .modal-buttons button.btn-cancelar:hover {
+            background: #252525;
+            border-color: #ff006e;
+            box-shadow: 0 0 15px rgba(255, 0, 110, 0.2);
+        }
+
+        /* Conteúdo do "Sobre" */
+        .sobre-conteudo {
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        .sobre-conteudo p {
+            margin-bottom: 12px;
+            color: #e0e0e0;
+        }
+
+        .sobre-conteudo strong {
+            color: #00d4ff;
+        }
+
+        .sobre-conteudo ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .sobre-conteudo li {
+            margin-bottom: 6px;
+            color: #e0e0e0;
+        }
+
+        /* ===================================================
+           REGRAS EXCLUSIVAS PARA DISPOSITIVOS MÓVEIS (MOBILE)
+           =================================================== */
+        @media (max-width: 600px) {
+            body {
+                align-items: flex-start; /* Evita que o conteúdo quebre no topo em telas muito baixinhas */
+                padding-top: 60px;
+            }
+
+            .container-inicial h1 {
+                font-size: 2.3rem; /* Título menor para não quebrar linha de forma feia */
+                margin-bottom: 30px;
+            }
+
+            .botoes-iniciais {
+                flex-direction: column; /* Botões empilhados um em cima do outro */
+                gap: 15px;
+                width: 100%;
+                padding: 0 10px;
+            }
+
+            .botoes-iniciais button {
+                width: 100%; /* Botão ocupa toda a largura disponível */
+                padding: 16px; /* Área de toque maior (melhor para os dedos) */
+                font-size: 15px;
+            }
+
+            .modal {
+                padding: 10px; /* Margem menor nas bordas do celular */
+            }
+
+            .modal-content {
+                padding: 25px 20px;
+                max-height: 85vh; /* Garante que o teclado virtual do celular não suma com o modal */
+            }
+
+            .modal-buttons {
+                flex-direction: column; /* Botões de ação do modal também ficam empilhados */
+                gap: 10px;
+            }
+            
+            .modal-buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-inicial">
+        <h1>COSMOS</h1>
+        <div class="botoes-iniciais">
+            <button onclick="abrirModal('loginModal')">Login</button>
+            <button class="btn-cadastro" onclick="abrirModal('cadastroModal')">Cadastro</button>
+            <button class="btn-sobre" onclick="abrirModal('sobreModal')">Sobre a Plataforma</button>
+        </div>
+    </div>
+
+   <div id="loginModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Login</h2>
+            <span class="close" onclick="fecharModal('loginModal')">&times;</span>
+        </div>
+        <div class="form-group">
+            <p>Email</p>
+            <input type="email" id="loginEmail" placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+            <p>Senha</p>
+            <input type="password" id="loginSenha" placeholder="sua senha">
+        </div>
+        
+        <p style="text-align: right; margin-bottom: 15px;">
+            <a href="#" onclick="recuperarSenha()" style="color: #00d4ff; font-size: 13px; text-decoration: none; font-weight: bold;">Esqueceu a senha?</a>
+        </p>
+
+        <div class="modal-buttons">
+            <button onclick="entrar()">Entrar</button>
+            <button class="btn-cancelar" onclick="fecharModal('loginModal')">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+    <div id="cadastroModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Cadastro</h2>
+            <span class="close" onclick="fecharModal('cadastroModal')">&times;</span>
+        </div>
+        <div class="form-group">
+            <p>Nome de Usuário</p>
+            <input type="text" id="cadUsuario" placeholder="seu usuário">
+        </div>
+        <div class="form-group">
+            <p>Email</p>
+            <input type="email" id="cadEmail" placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+            <p>Senha</p>
+            <input type="password" id="cadSenha" placeholder="sua senha">
+        </div>
+        <div class="form-group">
+            <p>Bio (opcional)</p>
+            <input type="text" id="cadBio" placeholder="sua bio">
+        </div>
+        <div class="modal-buttons">
+            <button onclick="cadastrar()">Cadastrar</button>
+            <button class="btn-cancelar" onclick="fecharModal('cadastroModal')">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+    <div id="sobreModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Sobre a Plataforma</h2>
+                <span class="close" onclick="fecharModal('sobreModal')">&times;</span>
+            </div>
+            <div class="sobre-conteudo">
+                <p><strong>Versão:</strong> 1.0.0</p>
+                <p><strong>Descrição: descrição aqui</strong></p>
+                <p><strong>Recursos Atuais:</strong></p>
+                <ul>
+                    <li>componentes da rede social</li>
+                </ul>
+                <p style="font-size: 12px; color: #888; margin-top: 20px;">© 2026 - nenhum direito reservado</p>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancelar" onclick="fecharModal('sobreModal')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+  
+<script type="module">
+    // Importando as ferramentas do Firebase (adicionado o sendPasswordResetEmail)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // CONFIGURAÇÃO DO SEU FIREBASE (Mantenha os seus dados reais aqui)
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCRYF7o4jmESm03_TrFs2fY22zxrRrHExg",
+  authDomain: "teatro-835db.firebaseapp.com",
+  projectId: "teatro-835db",
+  storageBucket: "teatro-835db.firebasestorage.app",
+  messagingSenderId: "862555541908",
+  appId: "1:862555541908:web:1a54005ce8f17428d7bf81",
+  measurementId: "G-13S0YEWKVX"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // LISTA DE PALAVRAS PROIBIDAS (Filtro de ofensas)
+    // Dica: Adicione aqui os termos que você quer banir na sua plataforma, sempre em letras minúsculas.
+    const palavrasProibidas = ["palavrao1", "ofensa2", "toxicidade3", "admin"];
+
+    function contemPalavrasPesadas(nome) {
+        const nomeMinusculo = nome.toLowerCase();
+        // Verifica se alguma palavra da lista está contida no nome de usuário
+        return palavrasProibidas.some(palavra => nomeMinusculo.includes(palavra));
+    }
+
+    // Funções de controle dos Modais
+    window.abrirModal = function(modalId) {
+        document.getElementById(modalId).style.display = "flex";
+    }
+
+    window.fecharModal = function(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = "none";
+        }
+    }
+
+    // LÓGICA DE CADASTRO (Com Filtro de Nome)
+    window.cadastrar = function() {
+        const usuario = document.getElementById('cadUsuario').value.trim();
+        const email = document.getElementById('cadEmail').value;
+        const senha = document.getElementById('cadSenha').value;
+
+        if (!usuario || !email || !senha) {
+            alert('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
+
+        // Aplicando o filtro de palavras pesadas
+        if (contemPalavrasPesadas(usuario)) {
+            alert('Esse nome de usuário contém palavras não permitidas. Escolha outro.');
+            return;
+        }
+
+        createUserWithEmailAndPassword(auth, email, senha)
+            .then((userCredential) => {
+                alert('Cadastro realizado com sucesso!');
+                fecharModal('cadastroModal');
+            })
+            .catch((error) => {
+                let mensagemErro = "Erro ao cadastrar.";
+                if (error.code === 'auth/email-already-in-use') mensagemErro = 'Este e-mail já está em uso.';
+                if (error.code === 'auth/weak-password') mensagemErro = 'A senha deve ter pelo menos 6 caracteres.';
+                if (error.code === 'auth/invalid-email') mensagemErro = 'E-mail inválido.';
+                
+                alert(mensagemErro);
+                console.error(error);
+            });
+    };
+
+    // LÓGICA DE LOGIN
+    window.entrar = function() {
+        const email = document.getElementById('loginEmail').value;
+        const senha = document.getElementById('loginSenha').value;
+
+        if (!email || !senha) {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+
+        signInWithEmailAndPassword(auth, email, senha)
+            .then((userCredential) => {
+                alert('Login efetuado com sucesso! Bem-vindo(a).');
+                fecharModal('loginModal');
+            })
+            .catch((error) => {
+                let mensagemErro = "Erro ao fazer login.";
+                if (error.code === 'auth/invalid-credential') mensagemErro = 'E-mail ou senha incorretos.';
+                
+                alert(mensagemErro);
+                console.error(error);
+            });
+    };
+
+    // LÓGICA DE RECUPERAÇÃO DE SENHA POR E-MAIL
+    window.recuperarSenha = function() {
+        const email = document.getElementById('loginEmail').value.trim();
+
+        if (!email) {
+            alert('Por favor, digite seu e-mail no campo de Login antes de clicar em "Esqueceu a senha?".');
+            return;
+        }
+
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                alert('Um e-mail de redefinição de senha foi enviado para: ' + email + '. Verifique sua caixa de entrada e lixo eletrônico (Spam).');
+            })
+            .catch((error) => {
+                let mensagemErro = "Erro ao enviar e-mail de recuperação.";
+                if (error.code === 'auth/invalid-email') mensagemErro = "O e-mail digitado não é válido.";
+                if (error.code === 'auth/user-not-found') mensagemErro = "Não encontramos nenhum usuário com esse e-mail.";
+                
+                alert(mensagemErro);
+                console.error(error);
+            });
+    };
+</script>
+</body>
+</html>
