@@ -949,7 +949,7 @@
                 await updateDoc(doc(db, "usuarios", nomeUsuario), { 
                     bio: novaBio, 
                     blurAtivado: novoBlur 
-                });
+                }{merge: true});
                 
                 dadosUsuario.bio = novaBio;
                 dadosUsuario.blurAtivado = novoBlur;
