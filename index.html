@@ -6,13 +6,8 @@
     <title>TEATRALIZANDO - Plataforma</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎭</text></svg>">
     <style>
-        /* Reset de Estilos */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Reset e Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 50%, #0a0a2e 100%);
             color: white;
@@ -25,367 +20,100 @@
             position: relative;
             padding: 20px;
         }
-
-        /* Efeito de Brilho de Fundo */
         body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 0, 127, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 0%, rgba(255, 100, 0, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 0, 127, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none; z-index: 0;
         }
-
-        /* Container Principal (Desktop) */
-        .container-inicial {
-            text-align: center;
-            z-index: 1;
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-        }
-
+        .container-inicial { text-align: center; z-index: 1; width: 100%; max-width: 800px; }
         .container-inicial h1 {
-            margin-bottom: 40px;
-            font-size: 3.5rem;
-            font-weight: 800;
+            margin-bottom: 40px; font-size: 3.5rem; font-weight: 800;
             background: linear-gradient(45deg, #ff006e, #8338ec, #00d4ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-transform: lowercase;
-            letter-spacing: -1px;
-            animation: glow 3s ease-in-out infinite;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: lowercase; letter-spacing: -1px; animation: glow 3s infinite;
         }
-
-        @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 0, 110, 0.4)); }
-            50% { filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.4)); }
+        @keyframes glow { 0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 0, 110, 0.4)); } 50% { filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.4)); } }
+        .botoes-iniciais { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        input, textarea, select {
+            background-color: rgba(20, 20, 20, 0.8); color: white; border: 2px solid #00d4ff;
+            border-radius: 8px; padding: 14px; margin: 8px 0; width: 100%; transition: all 0.3s; font-size: 15px;
         }
-
-        /* Grid de Botões Iniciais */
-        .botoes-iniciais {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Customização dos Inputs */
-        input {
-            background-color: rgba(20, 20, 20, 0.8);
-            color: white;
-            border: 2px solid #00d4ff;
-            border-radius: 8px;
-            padding: 14px;
-            margin: 8px 0;
-            width: 100%;
-            transition: all 0.3s ease;
-            font-size: 15px;
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #ff006e;
-            box-shadow: 0 0 20px rgba(255, 0, 110, 0.4);
-            transform: translateY(-1px);
-        }
-
-        /* Estilo Base dos Botões */
+        input:focus, textarea:focus { outline: none; border-color: #ff006e; box-shadow: 0 0 20px rgba(255, 0, 110, 0.4); }
         button {
-            background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 14px 32px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            font-size: 14px;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%); color: white; border: none;
+            border-radius: 8px; padding: 14px 32px; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: bold;
+            text-transform: uppercase; letter-spacing: 1px;
         }
-
-        button:hover {
-            box-shadow: 0 6px 20px rgba(255, 0, 110, 0.6);
-            transform: translateY(-3px);
-            filter: brightness(1.1);
-        }
-
-        button:active {
-            transform: translateY(-1px);
-        }
-
-        /* Cores Alternativas dos Botões */
-        .btn-cadastro {
-            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-        }
-        .btn-cadastro:hover {
-            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6);
-        }
-
-        .btn-sobre {
-            background: linear-gradient(135deg, #ff9500 0%, #ff6b35 100%);
-            box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
-        }
-        .btn-sobre:hover {
-            box-shadow: 0 6px 20px rgba(255, 149, 0, 0.6);
-        }
-
-        /* Estrutura dos Modais (Desktop) */
+        button:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 6px 20px rgba(255, 0, 110, 0.6); }
+        .btn-cadastro { background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%); }
+        .btn-sobre { background: linear-gradient(135deg, #ff9500 0%, #ff6b35 100%); }
+        
+        /* Modais */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 10;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); align-items: center; justify-content: center; padding: 20px;
         }
-
         .modal-content {
-            background: linear-gradient(135deg, #131324 0%, #0d1326 100%);
-            padding: 40px;
-            border: 2px solid #00d4ff;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 480px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
-            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: linear-gradient(135deg, #131324 0%, #0d1326 100%); padding: 30px; border: 2px solid #00d4ff;
+            border-radius: 16px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; animation: modalPop 0.4s;
         }
+        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid rgba(255, 0, 110, 0.3); padding-bottom: 15px; }
+        .close { color: #ff006e; font-size: 32px; font-weight: bold; cursor: pointer; }
+        .btn-cancelar { background: #1a1a1a; border: 2px solid #333; }
 
-        @keyframes modalPop {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        /* Estrutura de Abas Compartilhadas (Feed / Perfil) */
+        .container-feed, .container-perfil { display: none; width: 100%; max-width: 650px; z-index: 1; margin: 0 auto; padding-bottom: 100px; }
+        .feed-header, .perfil-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px;
+            background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(0, 212, 255, 0.2); backdrop-filter: blur(10px);
         }
+        .search-box { width: 100%; margin-bottom: 20px; display: flex; gap: 10px; }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            border-bottom: 2px solid rgba(255, 0, 110, 0.3);
-            padding-bottom: 15px;
-        }
+        /* Post Card & Carrossel */
+        .post-card { background: rgba(19, 19, 36, 0.7); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 14px; padding: 20px; margin-bottom: 20px; position: relative; }
+        .post-top { display: flex; justify-content: space-between; align-items: center; }
+        .post-user { font-weight: bold; color: #00d4ff; cursor: pointer; }
+        .post-menu-btn { cursor: pointer; color: #888; font-size: 20px; }
+        .post-menu-options { display: none; position: absolute; right: 20px; top: 45px; background: #131324; border: 1px solid #00d4ff; border-radius: 8px; z-index: 2; overflow: hidden; }
+        .post-menu-options div { padding: 10px 20px; cursor: pointer; font-size: 13px; }
+        .post-menu-options div:hover { background: rgba(0, 212, 255, 0.1); }
+        
+        /* Sistema de Carrossel de Imagens */
+        .carrossel { position: relative; width: 100%; margin: 15px 0; overflow: hidden; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .carrossel-slides { display: flex; transition: transform 0.3s ease-in-out; }
+        .carrossel-slide { min-width: 100%; position: relative; }
+        .carrossel-slide img { width: 100%; max-height: 400px; object-fit: cover; }
+        .carrossel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 10px; cursor: pointer; font-size: 18px; z-index: 1; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .carrossel-prev { left: 10px; } .carrossel-next { right: 10px; }
 
-        .modal-header h2 {
-            background: linear-gradient(45deg, #ff006e, #8338ec);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 26px;
-        }
+        /* Filtro de Blur Forte (+18 / Sensível) */
+        .media-blur { filter: blur(40px) brightness(0.3); transition: filter 0.3s; cursor: pointer; }
+        .media-blur::after { content: '⚠️ Conteúdo Oculto (Clique para ver)'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; text-align: center; width: 100%; pointer-events: none; font-size: 14px; }
+        .media-blur.remover-blur { filter: none; }
+        .media-blur.remover-blur::after { display: none; }
 
-        .close {
-            color: #ff006e;
-            font-size: 32px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            line-height: 1;
-        }
+        .post-actions { display: flex; gap: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 12px; margin-top: 15px; }
+        .btn-action { background: rgba(255, 255, 255, 0.02); padding: 8px 16px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+        
+        /* Comentários */
+        .comments-section { margin-top: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 12px; }
+        .comment-item { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 0; }
+        .comment-user { font-size: 13px; font-weight: bold; color: #ff006e; cursor: pointer; }
+        .comment-text { font-size: 13px; color: #ddd; margin: 4px 0; }
+        
+        /* Botões Flutuantes e Auxiliares */
+        .btn-flutuante { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; font-size: 30px; display: flex; align-items: center; justify-content: center; z-index: 5; box-shadow: 0 0 20px rgba(255, 0, 110, 0.5); }
+        .preview-multi-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .preview-thumb { width: 70px; height: 70px; border-radius: 6px; object-fit: cover; border: 1px solid #00d4ff; }
 
-        .close:hover {
-            color: #ff4d7d;
-            transform: rotate(90deg);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group p {
-            margin-bottom: 6px;
-            font-weight: bold;
-            color: #00d4ff;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 1px;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .modal-buttons button {
-            flex: 1;
-        }
-
-        .modal-buttons button.btn-cancelar {
-            background: #1a1a1a;
-            border: 2px solid #333;
-            box-shadow: none;
-        }
-
-        .modal-buttons button.btn-cancelar:hover {
-            background: #252525;
-            border-color: #ff006e;
-            box-shadow: 0 0 15px rgba(255, 0, 110, 0.2);
-        }
-
-        /* Conteúdo do "Sobre" */
-        .sobre-conteudo {
-            line-height: 1.8;
-            text-align: left;
-        }
-
-        .sobre-conteudo p {
-            margin-bottom: 12px;
-            color: #e0e0e0;
-        }
-
-        .sobre-conteudo strong {
-            color: #00d4ff;
-        }
-
-        .sobre-conteudo ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        .sobre-conteudo li {
-            margin-bottom: 6px;
-            color: #e0e0e0;
-        }
-
-        /* ===================================================
-           REGRAS EXCLUSIVAS PARA DISPOSITIVOS MÓVEIS (MOBILE)
-           =================================================== */
         @media (max-width: 600px) {
-            body {
-                align-items: flex-start; /* Evita que o conteúdo quebre no topo em telas muito baixinhas */
-                padding-top: 60px;
-            }
-
-            .container-inicial h1 {
-                font-size: 2.3rem; /* Título menor para não quebrar linha de forma feia */
-                margin-bottom: 30px;
-            }
-
-            .botoes-iniciais {
-                flex-direction: column; /* Botões empilhados um em cima do outro */
-                gap: 15px;
-                width: 100%;
-                padding: 0 10px;
-            }
-
-            .botoes-iniciais button {
-                width: 100%; /* Botão ocupa toda a largura disponível */
-                padding: 16px; /* Área de toque maior (melhor para os dedos) */
-                font-size: 15px;
-            }
-
-            .modal {
-                padding: 10px; /* Margem menor nas bordas do celular */
-            }
-
-            .modal-content {
-                padding: 25px 20px;
-                max-height: 85vh; /* Garante que o teclado virtual do celular não suma com o modal */
-            }
-
-            .modal-buttons {
-                flex-direction: column; /* Botões de ação do modal também ficam empilhados */
-                gap: 10px;
-            }
-            
-            .modal-buttons button {
-                width: 100%;
-            }
+            body { align-items: flex-start; padding-top: 20px; }
+            .container-inicial h1 { font-size: 2.3rem; }
+            .botoes-iniciais { flex-direction: column; width: 100%; }
+            .botoes-iniciais button { width: 100%; }
         }
-        /*feed*/
-        /* ESTRUTURA DO FEED */
-.container-feed {
-    display: none;
-    width: 100%;
-    max-width: 650px;
-    z-index: 1;
-    margin: 0 auto;
-    padding-bottom: 100px;
-}
-
-.feed-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
-    backdrop-filter: blur(10px);
-}
-
-.post-card {
-    background: rgba(19, 19, 36, 0.7);
-    border: 1px solid rgba(0, 212, 255, 0.2);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    text-align: left;
-}
-
-.post-user { font-weight: bold; color: #00d4ff; margin-bottom: 4px; font-size: 15px; }
-.post-time { font-size: 11px; color: #888; margin-bottom: 12px; }
-.post-text { font-size: 15px; line-height: 1.6; margin-bottom: 15px; color: #f0f0f0; white-space: pre-wrap; }
-
-.post-media-container img, .post-media-container video {
-    max-width: 100%;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.post-actions { display: flex; gap: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 12px; }
-
-.btn-action {
-    background: rgba(255, 255, 255, 0.02); box-shadow: none; padding: 8px 16px; font-size: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 6px;
-}
-.btn-action:hover { background: rgba(0, 212, 255, 0.1); border-color: #00d4ff; }
-
-/* Comentários e Janela Separada de Respostas */
-.comments-section { margin-top: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 12px; }
-.comment-item { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 0; }
-.comment-user { font-size: 13px; font-weight: bold; color: #ff006e; }
-.comment-text { font-size: 13px; color: #ddd; margin: 2px 0 6px 0; }
-.comment-actions { display: flex; gap: 15px; font-size: 11px; color: #888; }
-.comment-actions span { cursor: pointer; }
-.comment-actions span:hover { color: #00d4ff; }
-.reply-box { border-left: 3px solid #8338ec; padding-left: 10px; margin: 8px 0 8px 15px; }
-
-/* Botão de Adicionar e Pré-visualização */
-.btn-flutuante {
-    position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%;
-    font-size: 30px; display: flex; align-items: center; justify-content: center; z-index: 5;
-    box-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
-}
-#previewContainer {
-    margin-top: 10px; max-height: 180px; overflow: hidden; border-radius: 8px; display: none;
-    border: 2px dashed #00d4ff;
-}
-#previewContainer img, #previewContainer video { width: 100%; height: 100%; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -399,254 +127,262 @@
         </div>
     </div>
 
-   <div id="loginModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Login</h2>
-            <span class="close" onclick="fecharModal('loginModal')">&times;</span>
-        </div>
-        <div class="form-group">
-            <p>Email</p>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Login</h2><span class="close" onclick="fecharModal('loginModal')">&times;</span></div>
             <input type="email" id="loginEmail" placeholder="seu@email.com">
-        </div>
-        <div class="form-group">
-            <p>Senha</p>
             <input type="password" id="loginSenha" placeholder="sua senha">
-        </div>
-        
-        <p style="text-align: right; margin-bottom: 15px;">
-            <a href="#" onclick="recuperarSenha()" style="color: #00d4ff; font-size: 13px; text-decoration: none; font-weight: bold;">Esqueceu a senha?</a>
-        </p>
-
-        <div class="modal-buttons">
-            <button onclick="entrar()">Entrar</button>
-            <button class="btn-cancelar" onclick="fecharModal('loginModal')">Cancelar</button>
+            <button onclick="entrar()" style="width:100%; margin-top:15px;">Entrar</button>
         </div>
     </div>
-</div>
 
     <div id="cadastroModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Cadastro</h2>
-            <span class="close" onclick="fecharModal('cadastroModal')">&times;</span>
-        </div>
-        <div class="form-group">
-            <p>Nome de Usuário</p>
+        <div class="modal-content">
+            <div class="modal-header"><h2>Cadastro</h2><span class="close" onclick="fecharModal('cadastroModal')">&times;</span></div>
             <input type="text" id="cadUsuario" placeholder="seu usuário">
-        </div>
-        <div class="form-group">
-            <p>Email</p>
             <input type="email" id="cadEmail" placeholder="seu@email.com">
-        </div>
-        <div class="form-group">
-            <p>Senha</p>
             <input type="password" id="cadSenha" placeholder="sua senha">
-        </div>
-        <div class="form-group">
-            <p>Bio (opcional)</p>
-            <input type="text" id="cadBio" placeholder="sua bio">
-        </div>
-        <div class="modal-buttons">
-            <button onclick="cadastrar()">Cadastrar</button>
-            <button class="btn-cancelar" onclick="fecharModal('cadastroModal')">Cancelar</button>
+            <input type="text" id="cadBio" placeholder="sua bio (opcional)">
+            <button onclick="cadastrar()" style="width:100%; margin-top:15px;">Cadastrar</button>
         </div>
     </div>
-</div>
 
     <div id="sobreModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Sobre a Plataforma</h2>
-                <span class="close" onclick="fecharModal('sobreModal')">&times;</span>
-            </div>
-            <div class="sobre-conteudo">
-                <p><strong>Versão:</strong> 1.0.0</p>
-                <p><strong>Descrição: descrição aqui</strong></p>
-                <p><strong>Recursos Atuais:</strong></p>
-                <ul>
-                    <li>componentes da rede social</li>
-                </ul>
-                <p style="font-size: 12px; color: #888; margin-top: 20px;">© 2026 - nenhum direito reservado</p>
-            </div>
-            <div class="modal-buttons">
-                <button class="btn-cancelar" onclick="fecharModal('sobreModal')">Fechar</button>
+            <div class="modal-header"><h2>Sobre</h2><span class="close" onclick="fecharModal('sobreModal')">&times;</span></div>
+            <p><strong>Versão:</strong> 1.1.0 (Atualizado)</p>
+            <p>Rede social teatral com suporte multimídia avançado e controle de privacidade.</p>
+        </div>
+    </div>
+
+    <div class="container-feed" id="feedSection">
+        <div class="feed-header">
+            <h2 style="cursor:pointer;" onclick="mostrarFeedGeral()">🎭 Teatralizando</h2>
+            <div style="display:flex; gap:10px;">
+                <button class="btn-action" onclick="abrirMeuPerfil()">👤 Perfil</button>
+                <button class="btn-action" style="background:#ff006e;" onclick="window.location.reload()">Sair</button>
             </div>
         </div>
+        <div class="search-box">
+            <input type="text" id="inputBusca" placeholder="Pesquisar por @usuario...">
+            <button onclick="buscarUsuario()" style="padding:10px 20px;">Buscar</button>
+        </div>
+        <div id="feedContainer"></div>
+        <button class="btn-flutuante" onclick="abrirModal('criarPostModal')">+</button>
     </div>
-   <div class="container-feed" id="feedSection">
-    <div class="feed-header">
-        <h2>🎭 Teatralizando</h2>
-        <button class="btn-action" onclick="window.location.reload()">Sair</button>
-    </div>
-    <div id="feedContainer"></div>
-    <button class="btn-flutuante" onclick="abrirModal('criarPostModal')">+</button>
-</div>
 
-<div id="criarPostModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Nova Publicação</h2>
-            <span class="close" onclick="fecharModal('criarPostModal')">&times;</span>
+    <div class="container-perfil" id="perfilSection">
+        <div class="perfil-header">
+            <button onclick="voltarAoFeed()" style="padding:8px 16px; font-size:12px;">⬅ Voltar</button>
+            <h2 id="perfilTitulo">@usuario</h2>
+            <button id="btnConfigPerfil" class="btn-action" onclick="abrirModal('configModal')">⚙️</button>
         </div>
-        <div class="form-group">
-            <p>No que está pensando?</p>
-            <textarea id="postTexto" rows="4" placeholder="Escreva algo..."></textarea>
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <p id="perfilBio" style="font-style: italic; color:#bbb; margin-bottom: 10px;">Sem bio definida.</p>
+            <p id="perfilCurtidas" style="color:#00d4ff; font-weight:bold;">Total de Curtidas ganhas: 0</p>
         </div>
-        <div class="form-group">
-            <p>Escolher Imagem</p>
-            <input type="file" id="postMidiaArquivo" accept="image/*" onchange="mostrarPreviewMidia(event)">
-            <div id="previewContainer"></div>
-        </div>
-        <div class="modal-buttons">
-            <button id="btnEnviarPost" onclick="criarPost()">Publicar</button>
-            <button class="btn-cancelar" onclick="fecharModal('criarPostModal')">Cancelar</button>
-        </div>
+        <h3 style="margin-bottom:15px; color:#ff006e;">Publicações</h3>
+        <div id="perfilPostsContainer"></div>
     </div>
-</div>
 
-<div id="respostasModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Respostas</h2>
-            <span class="close" onclick="fecharModal('respostasModal')">&times;</span>
-        </div>
-        <div id="comentarioOriginalDestaque" style="padding-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1)"></div>
-        <div id="listaRespostasContainer" style="margin: 20px 0; max-height: 250px; overflow-y:auto;"></div>
-        <div class="form-group" style="margin-top:15px;">
-            <input type="text" id="novoTextoResposta" placeholder="Escreva sua resposta...">
-            <button onclick="enviarResposta()" style="width:100%; margin-top:8px; padding:10px;">Responder</button>
+    <div id="criarPostModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Nova Publicação</h2><span class="close" onclick="fecharModal('criarPostModal')">&times;</span></div>
+            <textarea id="postTexto" rows="4" placeholder="No que está pensando?"></textarea>
+            <p style="font-size:12px; color:#00d4ff; margin-top:8px;">Adicione até 5 imagens:</p>
+            <input type="file" id="postMidias" accept="image/*" multiple onchange="previewImagens(event, 'previewCriarPost')">
+            <div id="previewCriarPost" class="preview-multi-container"></div>
+            <button id="btnEnviarPost" onclick="criarPost()" style="width:100%; margin-top:15px;">Publicar</button>
         </div>
     </div>
-</div>
-   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc, onSnapshot, query, orderBy, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // SUAS CHAVES DO FIREBASE E IMGBB
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBppmxFZg2WpS0wBOpJFuK-I1u3C-WDbcE",
-  authDomain: "teatro-af4c2.firebaseapp.com",
-  projectId: "teatro-af4c2",
-  storageBucket: "teatro-af4c2.firebasestorage.app",
-  messagingSenderId: "203017839689",
-  appId: "1:203017839689:web:4a5a51b61c06ec538f8b98",
-  measurementId: "G-S6W5SD1242"
-};
-    const IMGBB_API_KEY = "e5f0ddeda6761849c181825a2d43afb0"; 
+    <div id="editarPostModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Editar Post</h2><span class="close" onclick="fecharModal('editarPostModal')">&times;</span></div>
+            <textarea id="editPostTexto" rows="4"></textarea>
+            <button onclick="salvarEdicaoPost()" style="width:100%; margin-top:15px;">Salvar Alterações</button>
+        </div>
+    </div>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    <div id="configModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Configurações do Perfil</h2><span class="close" onclick="fecharModal('configModal')">&times;</span></div>
+            <p style="font-size:13px; color:#00d4ff;">Editar Bio</p>
+            <input type="text" id="configBio" placeholder="Nova bio...">
+            
+            <div style="margin-top: 20px; padding: 15px; background:rgba(0,0,0,0.3); border-radius:8px;">
+                <p style="font-weight:bold; color:#ff006e; font-size:14px;">Controle de Privacidade (Blur)</p>
+                <p style="font-size:12px; color:#aaa; margin-bottom:10px;">Usuários menores de 18 anos ou que preferem segurança podem manter o desfoque obrigatório em mídias da rede.</p>
+                <select id="configBlur">
+                    <option value="ativado">Ativado (Desfocar imagens)</option>
+                    <option value="desativado">Desativado (Mostrar tudo livremente)</option>
+                </select>
+            </div>
+            <button onclick="salvarConfiguracoes()" style="width:100%; margin-top:20px;">Salvar e Aplicar</button>
+        </div>
+    </div>
 
-    let usuarioLogado = null;
-    let postagemAtualId = null; 
-    let comentarioAtualId = null;
-    let listaPostsLocal = [];
+    <div id="respostasModal" class="modal">
+        <div class="modal-content" style="max-width:550px;">
+            <div class="modal-header"><h2>Comentários e Respostas</h2><span class="close" onclick="fecharModal('respostasModal')">&times;</span></div>
+            <div id="listaRespostasContainer" style="max-height: 250px; overflow-y:auto; margin-bottom:15px;"></div>
+            
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top:10px;">
+                <input type="text" id="novoTextoResposta" placeholder="Escreva um comentário...">
+                <p style="font-size:11px; color:#00d4ff; margin:5px 0;">Opcional: Até 5 fotos para o comentário:</p>
+                <input type="file" id="comentarioMidias" accept="image/*" multiple onchange="previewImagens(event, 'previewComentario')">
+                <div id="previewComentario" class="preview-multi-container"></div>
+                <button onclick="enviarResposta()" style="width:100%; margin-top:8px; padding:10px;">Enviar Comentário</button>
+            </div>
+        </div>
+    </div>
 
-    // Filtro de nomes
-    const palavrasProibidas = ["palavrao1", "ofensa2", "admin"];
-    function contemPalavrasPesadas(nome) {
-        return palavrasProibidas.some(palavra => nome.toLowerCase().includes(palavra));
-    }
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, getDocs, where, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // Monitor do estado de Login
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            usuarioLogado = user;
-            document.querySelector('.container-inicial').style.display = 'none';
-            document.getElementById('feedSection').style.display = 'block';
-            escutarFeed(); 
-        } else {
-            usuarioLogado = null;
-        }
-    });
+        const firebaseConfig = {
+            apiKey: "AIzaSyBppmxFZg2WpS0wBOpJFuK-I1u3C-WDbcE",
+            authDomain: "teatro-af4c2.firebaseapp.com",
+            projectId: "teatro-af4c2",
+            storageBucket: "teatro-af4c2.firebasestorage.app",
+            messagingSenderId: "203017839689",
+            appId: "1:203017839689:web:4a5a51b61c06ec538f8b98"
+        };
+        const IMGBB_API_KEY = "e5f0ddeda6761849c181825a2d43afb0"; 
 
-    // Modais
-    window.abrirModal = function(modalId) { document.getElementById(modalId).style.display = "flex"; }
-    window.fecharModal = function(modalId) {
-        document.getElementById(modalId).style.display = "none";
-        if(modalId === 'criarPostModal') {
-            document.getElementById('postTexto').value = '';
-            document.getElementById('postMidiaArquivo').value = '';
-            document.getElementById('previewContainer').style.display = 'none';
-        }
-    }
-    window.onclick = function(e) { if (e.target.classList.contains('modal')) e.target.style.display = "none"; }
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    // Autenticação
-    window.cadastrar = function() {
-        const usuario = document.getElementById('cadUsuario').value.trim();
-        const email = document.getElementById('cadEmail').value;
-        const senha = document.getElementById('cadSenha').value;
-        if (!usuario || !email || !senha) return alert('Preencha os campos obrigatórios.');
-        if (contemPalavrasPesadas(usuario)) return alert('Nome não permitido.');
+        let usuarioLogado = null;
+        let dadosPerfilLogado = { bio: "", blur: "ativado" };
+        let postagemAtualId = null; 
+        let listaPostsLocal = [];
+        let carrosselStatus = {};
 
-        createUserWithEmailAndPassword(auth, email, senha).then(() => fecharModal('cadastroModal')).catch(e => alert(e.message));
-    };
-
-    window.entrar = function() {
-        const email = document.getElementById('loginEmail').value;
-        const senha = document.getElementById('loginSenha').value;
-        signInWithEmailAndPassword(auth, email, senha).then(() => fecharModal('loginModal')).catch(() => alert('Dados incorretos.'));
-    };
-
-    window.recuperarSenha = function() {
-        const email = document.getElementById('loginEmail').value.trim();
-        if (!email) return alert('Digite seu e-mail no login.');
-        sendPasswordResetEmail(auth, email).then(() => alert('E-mail enviado!'));
-    };
-
-    // Preview de Imagem
-    window.mostrarPreviewMidia = function(event) {
-        const arquivo = event.target.files[0];
-        const container = document.getElementById('previewContainer');
-        container.innerHTML = '';
-        if (arquivo) {
-            container.style.display = 'block';
-            const urlBlob = URL.createObjectURL(arquivo);
-            container.innerHTML = `<img src="${urlBlob}">`;
-        }
-    }
-
-    // 🌟 LÓGICA ATUALIZADA DE POSTAGEM (Com alertas de erro exatos)
-    window.criarPost = async function() {
-        const texto = document.getElementById('postTexto').value.trim();
-        const arquivoMidia = document.getElementById('postMidiaArquivo').files[0];
-        const btn = document.getElementById('btnEnviarPost');
-
-        if (!texto && !arquivoMidia) return alert('Escreva ou selecione uma imagem.');
-
-        btn.disabled = true;
-        btn.innerText = "Publicando...";
-
-        try {
-            let linkDaImagem = '';
-
-            // Se tem foto, envia para o ImgBB primeiro
-            if (arquivoMidia) {
-                const formData = new FormData();
-                formData.append('image', arquivoMidia);
-
-                const resposta = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-                    method: 'POST',
-                    body: formData
-                });
+        // Observador de Autenticação
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                usuarioLogado = user;
+                const userUsername = user.email.split('@')[0];
                 
-                const resultado = await resposta.json();
-                if (resultado.success) {
-                    linkDaImagem = resultado.data.url;
+                // Carrega ou inicializa perfil no Firestore
+                const perfilDoc = await getDoc(doc(db, "perfis", userUsername));
+                if (perfilDoc.exists()) {
+                    dadosPerfilLogado = perfilDoc.data();
                 } else {
-                    throw new Error('Falha na API de Imagem do ImgBB');
+                    dadosPerfilLogado = { bio: "Entusiasta do Teatro", blur: "ativado" };
+                    await setDoc(doc(db, "perfis", userUsername), dadosPerfilLogado);
                 }
-            }
 
-            // Salva no banco de dados
+                document.querySelector('.container-inicial').style.display = 'none';
+                document.getElementById('feedSection').style.display = 'block';
+                escutarFeed(); 
+            }
+        });
+
+        // Modais globais
+        window.abrirModal = function(id) { 
+            if(id === 'configModal') {
+                document.getElementById('configBio').value = dadosPerfilLogado.bio || "";
+                document.getElementById('configBlur').value = dadosPerfilLogado.blur || "ativado";
+            }
+            document.getElementById(id).style.display = "flex"; 
+        }
+        window.fecharModal = function(id) { 
+            document.getElementById(id).style.display = "none"; 
+            if(id === 'criarPostModal') {
+                document.getElementById('postTexto').value = '';
+                document.getElementById('postMidias').value = '';
+                document.getElementById('previewCriarPost').innerHTML = '';
+            }
+            if(id === 'respostasModal') {
+                document.getElementById('comentarioMidias').value = '';
+                document.getElementById('previewComentario').innerHTML = '';
+            }
+        }
+
+        // Preview local para múltiplas imagens
+        window.previewImagens = function(event, containerId) {
+            const arquivos = event.target.files;
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            if(arquivos.length > 5) {
+                alert("Você pode escolher no máximo 5 imagens.");
+                event.target.value = '';
+                return;
+            }
+            Array.from(arquivos).forEach(file => {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.className = 'preview-thumb';
+                container.appendChild(img);
+            });
+        }
+
+        // Upload de múltiplas mídias via ImgBB
+        async function uploadMultiplasImagens(arquivos) {
+            let urls = [];
+            for (let i = 0; i < Math.min(arquivos.length, 5); i++) {
+                const formData = new FormData();
+                formData.append('image', arquivos[i]);
+                try {
+                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData });
+                    const json = await res.json();
+                    if(json.success) urls.push(json.data.url);
+                } catch (e) { console.error("Erro no upload de uma imagem: ", e); }
+            }
+            return urls;
+        }
+
+        // Cadastro e Login básicos
+        window.cadastrar = function() {
+            const usuario = document.getElementById('cadUsuario').value.trim();
+            const email = document.getElementById('cadEmail').value;
+            const senha = document.getElementById('cadSenha').value;
+            const bio = document.getElementById('cadBio').value || "Membro do Teatralizando";
+            if (!usuario || !email || !senha) return alert('Campos obrigatórios ausentes.');
+
+            createUserWithEmailAndPassword(auth, email, senha).then(async (cred) => {
+                await setDoc(doc(db, "perfis", usuario.toLowerCase()), { bio: bio, blur: "ativated" });
+                fecharModal('cadastroModal');
+            }).catch(e => alert(e.message));
+        };
+
+        window.entrar = function() {
+            signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginSenha').value)
+                .then(() => fecharModal('loginModal')).catch(() => alert('Dados incorretos.'));
+        };
+
+        // Salvar Perfil e Alterar Blur
+        window.salvarConfiguracoes = async function() {
+            const novaBio = document.getElementById('configBio').value;
+            const novoBlur = document.getElementById('configBlur').value;
+            const userUsername = usuarioLogado.email.split('@')[0];
+
+            dadosPerfilLogado = { bio: novaBio, blur: novoBlur };
+            await setDoc(doc(db, "perfis", userUsername), dadosPerfilLogado);
+            alert("Configurações atualizadas!");
+            fecharModal('configModal');
+            escutarFeed(); // Força re-renderização das mídias com o novo filtro aplicado
+        }
+
+        // CRUD: Criar Postagem
+        window.criarPost = async function() {
+            const texto = document.getElementById('postTexto').value.trim();
+            const arquivos = document.getElementById('postMidias').files;
+            const btn = document.getElementById('btnEnviarPost');
+
+            if (!texto && arquivos.length === 0) return alert('O post precisa de texto ou imagem.');
+            btn.disabled = true; btn.innerText = "Publicando...";
+
+            let linksImagens = await uploadMultiplasImagens(arquivos);
+
             await addDoc(collection(db, "posts"), {
                 texto: texto,
-                midiaUrl: linkDaImagem,
+                midias: linksImagens,
                 usuario: usuarioLogado.email.split('@')[0],
                 criadoEm: Date.now(),
                 curtidas: 0,
@@ -654,165 +390,226 @@ const firebaseConfig = {
             });
 
             fecharModal('criarPostModal');
+            btn.disabled = false; btn.innerText = "Publicar";
+        };
 
-        } catch (error) {
-            console.error(error);
-            // Verifica se o erro foi bloqueio de segurança do Firebase
-            if (error.code === 'permission-denied') {
-                alert("BLOQUEIO FIREBASE: Você precisa alterar as regras do Firestore para 'allow read, write: if true;' no painel.");
-            } else {
-                alert("Erro ao publicar: " + error.message);
-            }
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "Publicar";
+        // Renderizador e Escutador em tempo real do Feed Geral
+        function escutarFeed() {
+            const q = query(collection(db, "posts"), orderBy("criadoEm", "desc"));
+            onSnapshot(q, (snapshot) => {
+                listaPostsLocal = [];
+                snapshot.forEach(docSnap => listaPostsLocal.push({ id: docSnap.id, ...docSnap.data() }));
+                renderizarPosts(listaPostsLocal, 'feedContainer');
+            });
         }
-    };
 
-    // 🌟 LÓGICA ATUALIZADA DO FEED (Avisa se a leitura falhar)
-    function escutarFeed() {
-        const consultaPosts = query(collection(db, "posts"), orderBy("criadoEm", "desc"));
-        
-        onSnapshot(consultaPosts, (snapshot) => {
-            const container = document.getElementById('feedContainer');
+        // Construtor Visual Dinâmico de Carrossel de Imagens e Componentes
+        function renderizarPosts(posts, containerId) {
+            const container = document.getElementById(containerId);
             container.innerHTML = '';
-            listaPostsLocal = [];
 
-            snapshot.forEach((docSnap) => {
-                const post = { id: docSnap.id, ...docSnap.data() };
-                listaPostsLocal.push(post);
+            posts.forEach(post => {
+                const euSouDono = post.usuario === usuarioLogado.email.split('@')[0];
                 
-                let mediaHTML = post.midiaUrl ? `<div class="post-media-container"><img src="${post.midiaUrl}"></div>` : '';
+                // Geração do Carrossel de imagens se houver mídias
+                let carrosselHTML = '';
+                if(post.midias && post.midias.length > 0) {
+                    const idUnicoCarrossel = `carrossel_${post.id}`;
+                    carrosselStatus[idUnicoCarrossel] = 0;
 
-                let comentariosHTML = post.comentarios.map(c => `
-                    <div class="comment-item">
-                        <div class="comment-user">@${c.usuario}</div>
-                        <div class="comment-text">${c.texto}</div>
-                        <div class="comment-actions">
-                            <span onclick="curtirComentario('${post.id}', '${c.id}')">❤️ ${c.curtidas || 0}</span>
-                            <span onclick="abrirAbaRespostas('${post.id}', '${c.id}')">💬 Responder (${c.respostas ? c.respostas.length : 0})</span>
+                    let slides = post.midias.map((url, index) => `
+                        <div class="carrossel-slide">
+                            <img src="${url}" class="${dadosPerfilLogado.blur === 'ativado' ? 'media-blur' : ''}" onclick="this.classList.toggle('remover-blur')">
                         </div>
-                    </div>
-                `).join('');
+                    `).join('');
+
+                    let botoesNavegacao = post.midias.length > 1 ? `
+                        <button class="carrossel-btn carrossel-prev" onclick="moverCarrossel('${idUnicoCarrossel}', -1)">❮</button>
+                        <button class="carrossel-btn carrossel-next" onclick="moverCarrossel('${idUnicoCarrossel}', 1)">❯</button>
+                    ` : '';
+
+                    carrosselHTML = `
+                        <div class="carrossel" id="${idUnicoCarrossel}">
+                            <div class="carrossel-slides">${slides}</div>
+                            ${botoesNavegacao}
+                        </div>
+                    `;
+                }
 
                 const postCard = document.createElement('div');
                 postCard.className = 'post-card';
                 postCard.innerHTML = `
-                    <div class="post-user">@${post.usuario}</div>
-                    <div class="post-time">${new Date(post.criadoEm).toLocaleString('pt-BR')}</div>
+                    <div class="post-top">
+                        <div class="post-user" onclick="verPerfilOutro('${post.usuario}')">@${post.usuario}</div>
+                        <div class="post-menu-btn" onclick="toggleMenuPost('${post.id}')">⋮</div>
+                        <div class="post-menu-options" id="menu_${post.id}">
+                            ${euSouDono ? `
+                                <div onclick="abrirEditarPost('${post.id}', '${post.texto}')">Editar Texto</div>
+                                <div style="color:#ff006e;" onclick="deletarPost('${post.id}')">Apagar Post</div>
+                            ` : `
+                                <div onclick="denunciarPost('${post.id}')">🚨 Denunciar Post</div>
+                            `}
+                        </div>
+                    </div>
+                    <div style="font-size:11px; color:#888; margin-bottom:10px;">${new Date(post.criadoEm).toLocaleString('pt-BR')}</div>
                     <div class="post-text">${post.texto}</div>
-                    ${mediaHTML}
+                    ${carrosselHTML}
                     <div class="post-actions">
                         <button class="btn-action" onclick="curtirPost('${post.id}')">❤️ ${post.curtidas}</button>
-                        <button class="btn-action" onclick="compartilharPost('${post.id}')">🔗 Compartilhar</button>
-                    </div>
-                    <div class="comments-section">
-                        <div style="display:flex; gap:8px; margin-bottom:10px;">
-                            <input type="text" id="inputComent_${post.id}" placeholder="Comentar..." style="padding:8px; margin:0; font-size:13px;">
-                            <button onclick="comentarPost('${post.id}')" style="padding:8px 16px; font-size:12px;">Postar</button>
-                        </div>
-                        ${comentariosHTML}
+                        <button class="btn-action" onclick="abrirJanelaComentarios('${post.id}')">💬 Comentários (${post.comentarios ? post.comentarios.length : 0})</button>
                     </div>
                 `;
                 container.appendChild(postCard);
             });
-        }, (error) => {
-            // Se o Firebase bloquear a leitura dos posts, ele avisa aqui
-            if (error.code === 'permission-denied') {
-                alert("BLOQUEIO FIREBASE: Seus posts não podem ser carregados. Vá no Console > Firestore > Rules e mude para 'allow read, write: if true;'");
-            }
-            console.error("Erro no Feed:", error);
-        });
-    }
-
-    // Interações
-    window.curtirPost = function(id) {
-        const postRef = doc(db, "posts", id);
-        const post = listaPostsLocal.find(p => p.id === id);
-        updateDoc(postRef, { curtidas: post.curtidas + 1 });
-    };
-
-    window.comentarPost = function(id) {
-        const input = document.getElementById(`inputComent_${id}`);
-        if (!input.value.trim()) return;
-        const postRef = doc(db, "posts", id);
-        updateDoc(postRef, {
-            comentarios: arrayUnion({
-                id: `c_${Date.now()}`,
-                usuario: usuarioLogado.email.split('@')[0],
-                texto: input.value.trim(),
-                curtidas: 0,
-                respostas: []
-            })
-        }).then(() => { input.value = ''; });
-    };
-
-    window.curtirComentario = function(postId, comentId) {
-        const postRef = doc(db, "posts", postId);
-        const post = listaPostsLocal.find(p => p.id === postId);
-        const novosComentarios = post.comentarios.map(c => {
-            if (c.id === comentId) c.curtidas = (c.curtidas || 0) + 1;
-            return c;
-        });
-        updateDoc(postRef, { comentarios: novosComentarios });
-    };
-
-    window.compartilharPost = function(id) {
-        const post = listaPostsLocal.find(p => p.id === id);
-        navigator.clipboard.writeText(post.midiaUrl || window.location.href).then(() => alert('Link copiado!'));
-    };
-
-    // Respostas
-    window.abrirAbaRespostas = function(postId, comentId) {
-        postagemAtualId = postId;
-        comentarioAtualId = comentId;
-        const post = listaPostsLocal.find(p => p.id === postId);
-        const comentario = post.comentarios.find(c => c.id === comentId);
-
-        document.getElementById('comentarioOriginalDestaque').innerHTML = `
-            <div class="comment-user" style="color:#00d4ff">@${comentario.usuario}</div>
-            <div class="comment-text" style="font-size:15px; margin-top:5px;">${comentario.texto}</div>
-        `;
-        atualizarListaRespostasInterface(comentario);
-        abrirModal('respostasModal');
-    };
-
-    function atualizarListaRespostasInterface(comentario) {
-        const container = document.getElementById('listaRespostasContainer');
-        container.innerHTML = '';
-        if(!comentario.respostas || comentario.respostas.length === 0) {
-            container.innerHTML = `<p style="font-size:13px; color:#666; text-align:center;">Nenhuma resposta ainda.</p>`;
-            return;
         }
-        comentario.respostas.forEach(resp => {
-            const div = document.createElement('div');
-            div.className = 'reply-box';
-            div.innerHTML = `<div class="comment-user" style="font-size:12px;">@${resp.usuario}</div><div class="comment-text" style="font-size:13px;">${resp.texto}</div>`;
-            container.appendChild(div);
-        });
-    }
 
-    window.enviarResposta = async function() {
-        const input = document.getElementById('novoTextoResposta');
-        if(!input.value.trim()) return;
+        // Lógica Global de Navegação do Carrossel de Fotos
+        window.moverCarrossel = function(carrosselId, direcao) {
+            const carrosselEl = document.getElementById(carrosselId);
+            const slidesContainer = carrosselEl.querySelector('.carrossel-slides');
+            const totalSlides = slidesContainer.children.length;
+            
+            carrosselStatus[carrosselId] = (carrosselStatus[carrosselId] + direcao + totalSlides) % totalSlides;
+            slidesContainer.style.transform = `translateX(-${carrosselStatus[carrosselId] * 100}%)`;
+        }
 
-        const postRef = doc(db, "posts", postagemAtualId);
-        const post = listaPostsLocal.find(p => p.id === postagemAtualId);
-        let comentarioAlterado = null;
+        // Toggle para menu de três pontos de gerenciamento
+        window.toggleMenuPost = function(id) {
+            const menu = document.getElementById(`menu_${id}`);
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
 
-        const novosComentarios = post.comentarios.map(c => {
-            if (c.id === comentarioAtualId) {
-                if (!c.respostas) c.respostas = [];
-                c.respostas.push({ usuario: usuarioLogado.email.split('@')[0], texto: input.value.trim() });
-                comentarioAlterado = c;
+        // Ações CRUD e Moderação de Posts
+        window.curtirPost = async function(id) {
+            const p = listaPostsLocal.find(post => post.id === id);
+            await updateDoc(doc(db, "posts", id), { curtidas: p.curtidas + 1 });
+        }
+
+        window.abrirEditarPost = function(id, textoAtual) {
+            postagemAtualId = id;
+            document.getElementById('editPostTexto').value = textoAtual;
+            abrirModal('editarPostModal');
+        }
+
+        window.salvarEdicaoPost = async function() {
+            const novoTexto = document.getElementById('editPostTexto').value.trim();
+            if(!novoTexto) return;
+            await updateDoc(doc(db, "posts", postagemAtualId), { texto: novoTexto });
+            fecharModal('editarPostModal');
+        }
+
+        window.deletarPost = async function(id) {
+            if(confirm("Deseja realmente excluir permanentemente este post?")) {
+                await deleteDoc(doc(db, "posts", id));
             }
-            return c;
-        });
+        }
 
-        await updateDoc(postRef, { comentarios: novosComentarios });
-        input.value = '';
-        atualizarListaRespostasInterface(comentarioAlterado);
-    };
-</script>
+        window.denunciarPost = async function(id) {
+            await addDoc(collection(db, "denuncias"), {
+                postId: id,
+                denunciadoPor: usuarioLogado.email.split('@')[0],
+                dataDenuncia: Date.now()
+            });
+            alert("A publicação foi enviada para a moderação de conteúdo com sucesso.");
+        }
+
+        // SISTEMA DE INTERAÇÃO COM COMENTÁRIOS E RESPOSTAS (Com mídias suportadas)
+        window.abrirJanelaComentarios = function(id) {
+            postagemAtualId = id;
+            const p = listaPostsLocal.find(post => post.id === id);
+            
+            const container = document.getElementById('listaRespostasContainer');
+            container.innerHTML = '';
+
+            if(p.comentarios && p.comentarios.length > 0) {
+                p.comentarios.forEach(com => {
+                    let mídiasComentarioHTML = '';
+                    if(com.midias && com.midias.length > 0) {
+                        mídiasComentarioHTML = `<div style="display:flex; gap:5px; margin-top:5px;">` + 
+                            com.midias.map(url => `<img src="${url}" style="width:50px; height:50px; border-radius:4px; object-fit:cover;" class="${dadosPerfilLogado.blur === 'ativado' ? 'media-blur' : ''}" onclick="this.classList.toggle('remover-blur')">`).join('') + `</div>`;
+                    }
+
+                    const div = document.createElement('div');
+                    div.className = 'comment-item';
+                    div.innerHTML = `
+                        <div class="comment-user" onclick="fecharModal('respostasModal'); verPerfilOutro('${com.usuario}');">@${com.usuario}</div>
+                        <div class="comment-text">${com.texto}</div>
+                        ${mídiasComentarioHTML}
+                    `;
+                    container.appendChild(div);
+                });
+            } else {
+                container.innerHTML = `<p style="font-size:12px; color:#888; text-align:center; padding:10px;">Ninguém comentou ainda.</p>`;
+            }
+            abrirModal('respostasModal');
+        }
+
+        window.enviarResposta = async function() {
+            const txt = document.getElementById('novoTextoResposta').value.trim();
+            const arquivos = document.getElementById('comentarioMidias').files;
+            if(!txt && arquivos.length === 0) return;
+
+            let linksImagens = await uploadMultiplasImagens(arquivos);
+            const p = listaPostsLocal.find(post => post.id === postagemAtualId);
+
+            const novosComentarios = p.comentarios || [];
+            novosComentarios.push({
+                usuario: usuarioLogado.email.split('@')[0],
+                texto: txt,
+                midias: linksImagens,
+                criadoEm: Date.now()
+            });
+
+            await updateDoc(doc(db, "posts", postagemAtualId), { comentarios: novosComentarios });
+            document.getElementById('novoTextoResposta').value = '';
+            fecharModal('respostasModal');
+        }
+
+        // LOGICA DE VISUALIZAÇÃO DE PERFIL E PESQUISA AVANÇADA
+        window.abrirMeuPerfil = function() {
+            verPerfilOutro(usuarioLogado.email.split('@')[0]);
+        }
+
+        window.verPerfilOutro = async function(username) {
+            document.getElementById('feedSection').style.display = 'none';
+            document.getElementById('perfilSection').style.display = 'block';
+            document.getElementById('perfilTitulo').innerText = `@${username}`;
+
+            // Mostra ou esconde botão de configuração dependendo de quem está olhando
+            const eMeuPerfil = username === usuarioLogado.email.split('@')[0];
+            document.getElementById('btnConfigPerfil').style.display = eMeuPerfil ? 'block' : 'none';
+
+            // Carrega dados da Bio e Perfil do Firestore
+            const perfilSnap = await getDoc(doc(db, "perfis", username));
+            if(perfilSnap.exists()) {
+                document.getElementById('perfilBio').innerText = perfilSnap.data().bio || "Sem bio definida.";
+            } else {
+                document.getElementById('perfilBio').innerText = "Membro do Teatralizando.";
+            }
+
+            // Filtra publicações do autor e computa total de likes
+            const postsFiltrados = listaPostsLocal.filter(p => p.usuario === username);
+            let totalLikesAcumulados = 0;
+            postsFiltrados.forEach(p => totalLikesAcumulados += (p.curtidas || 0));
+
+            document.getElementById('perfilCurtidas').innerText = `Total de curtidas ganhas: ❤️ ${totalLikesAcumulados}`;
+            renderizarPosts(postsFiltrados, 'perfilPostsContainer');
+        }
+
+        window.buscarUsuario = function() {
+            const busca = document.getElementById('inputBusca').value.trim().replace('@', '').toLowerCase();
+            if(busca) verPerfilOutro(busca);
+        }
+
+        window.voltarAoFeed = function() {
+            document.getElementById('perfilSection').style.display = 'none';
+            document.getElementById('feedSection').style.display = 'block';
+        }
+
+        window.mostrarFeedGeral = function() {
+            voltarAoFeed();
+            escutarFeed();
+        }
+    </script>
 </body>
 </html>
