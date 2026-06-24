@@ -6,242 +6,633 @@
     <title>TEATRALIZANDO - Plataforma</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎭</text></svg>">
     <style>
-        /* Reset e Base */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ===================================================
+           RESET E BASE DA PÁGININA
+           =================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 50%, #0a0a2e 100%);
             color: white;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
             padding: 20px;
         }
+
+        /* Efeito de Brilho de Fundo */
         body::before {
-            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(255, 0, 127, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 50%);
-            pointer-events: none; z-index: 0;
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 0, 127, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 0%, rgba(255, 100, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
-        .container-inicial { text-align: center; z-index: 1; width: 100%; max-width: 800px; }
+
+        /* ===================================================
+           TELA INICIAL (LOGIN / CADASTRO)
+           =================================================== */
+        .container-inicial {
+            text-align: center;
+            z-index: 1;
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 10vh auto;
+        }
+
         .container-inicial h1 {
-            margin-bottom: 40px; font-size: 3.5rem; font-weight: 800;
+            margin-bottom: 40px;
+            font-size: 3.5rem;
+            font-weight: 800;
             background: linear-gradient(45deg, #ff006e, #8338ec, #00d4ff);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-transform: lowercase; letter-spacing: -1px; animation: glow 3s infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: lowercase;
+            letter-spacing: -1px;
+            animation: glow 3s ease-in-out infinite;
         }
-        @keyframes glow { 0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 0, 110, 0.4)); } 50% { filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.4)); } }
-        .botoes-iniciais { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-        input, textarea, select {
-            background-color: rgba(20, 20, 20, 0.8); color: white; border: 2px solid #00d4ff;
-            border-radius: 8px; padding: 14px; margin: 8px 0; width: 100%; transition: all 0.3s; font-size: 15px;
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 0, 110, 0.4)); }
+            50% { filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.4)); }
         }
-        input:focus, textarea:focus { outline: none; border-color: #ff006e; box-shadow: 0 0 20px rgba(255, 0, 110, 0.4); }
+
+        .botoes-iniciais {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===================================================
+           FORMULÁRIOS E BOTÕES
+           =================================================== */
+        input, textarea {
+            background-color: rgba(20, 20, 20, 0.8);
+            color: white;
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            padding: 14px;
+            margin: 8px 0;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            resize: none;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #ff006e;
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.4);
+            transform: translateY(-1px);
+        }
+
         button {
-            background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%); color: white; border: none;
-            border-radius: 8px; padding: 14px 32px; cursor: pointer; transition: all 0.3s; font-size: 14px; font-weight: bold;
-            text-transform: uppercase; letter-spacing: 1px;
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 32px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        button:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 6px 20px rgba(255, 0, 110, 0.6); }
-        .btn-cadastro { background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%); }
-        .btn-sobre { background: linear-gradient(135deg, #ff9500 0%, #ff6b35 100%); }
-        
-        /* Modais */
+
+        button:hover {
+            box-shadow: 0 6px 20px rgba(255, 0, 110, 0.6);
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secundario {
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secundario:hover {
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6);
+        }
+
+        .btn-cancelar {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            box-shadow: none;
+        }
+
+        .btn-cancelar:hover {
+            background: #252525;
+            border-color: #ff006e;
+            box-shadow: 0 0 15px rgba(255, 0, 110, 0.2);
+        }
+
+        /* ===================================================
+           ESTRUTURA DOS MODAIS
+           =================================================== */
         .modal {
-            display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); align-items: center; justify-content: center; padding: 20px;
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
+
         .modal-content {
-            background: linear-gradient(135deg, #131324 0%, #0d1326 100%); padding: 30px; border: 2px solid #00d4ff;
-            border-radius: 16px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; animation: modalPop 0.4s;
+            background: linear-gradient(135deg, #131324 0%, #0d1326 100%);
+            padding: 30px;
+            border: 2px solid #00d4ff;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid rgba(255, 0, 110, 0.3); padding-bottom: 15px; }
-        .close { color: #ff006e; font-size: 32px; font-weight: bold; cursor: pointer; }
-        .btn-cancelar { background: #1a1a1a; border: 2px solid #333; }
 
-        /* Estrutura de Abas Compartilhadas (Feed / Perfil) */
-        .container-feed, .container-perfil { display: none; width: 100%; max-width: 650px; z-index: 1; margin: 0 auto; padding-bottom: 100px; }
-        .feed-header, .perfil-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px;
-            background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(0, 212, 255, 0.2); backdrop-filter: blur(10px);
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
-        .search-box { width: 100%; margin-bottom: 20px; display: flex; gap: 10px; }
 
-        /* Post Card & Carrossel */
-        .post-card { background: rgba(19, 19, 36, 0.7); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 14px; padding: 20px; margin-bottom: 20px; position: relative; }
-        .post-top { display: flex; justify-content: space-between; align-items: center; }
-        .post-user { font-weight: bold; color: #00d4ff; cursor: pointer; }
-        .post-menu-btn { cursor: pointer; color: #888; font-size: 20px; }
-        .post-menu-options { display: none; position: absolute; right: 20px; top: 45px; background: #131324; border: 1px solid #00d4ff; border-radius: 8px; z-index: 2; overflow: hidden; }
-        .post-menu-options div { padding: 10px 20px; cursor: pointer; font-size: 13px; }
-        .post-menu-options div:hover { background: rgba(0, 212, 255, 0.1); }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 0, 110, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .modal-header h2 {
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 24px;
+        }
+
+        .close {
+            color: #ff006e;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #ff4d7d;
+            transform: rotate(90deg);
+        }
+
+        /* Toggle Switch (Configurações) */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #00d4ff; }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        /* ===================================================
+           INTERFACE PRINCIPAL E BARRA DE NAVEGAÇÃO
+           =================================================== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(19, 19, 36, 0.9);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-links input {
+            width: 200px;
+            padding: 8px 15px;
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .nav-links span {
+            cursor: pointer;
+            font-weight: bold;
+            color: #00d4ff;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .nav-links span:hover { color: #ff006e; }
+
+        .container-feed {
+            display: none;
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* ===================================================
+           PERFIL DO USUÁRIO
+           =================================================== */
+        .perfil-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 25px;
+            background: rgba(19, 19, 36, 0.7);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .perfil-nome {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .perfil-bio {
+            font-size: 15px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .perfil-status {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            color: #ff006e;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+
+        /* ===================================================
+           POSTS E FEED
+           =================================================== */
+        .post-card {
+            background: rgba(19, 19, 36, 0.7);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .post-user {
+            font-weight: bold;
+            color: #00d4ff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .post-user:hover { text-decoration: underline; }
         
-        /* Sistema de Carrossel de Imagens */
-        .carrossel { position: relative; width: 100%; margin: 15px 0; overflow: hidden; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
-        .carrossel-slides { display: flex; transition: transform 0.3s ease-in-out; }
-        .carrossel-slide { min-width: 100%; position: relative; }
-        .carrossel-slide img { width: 100%; max-height: 400px; object-fit: cover; }
-        .carrossel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 10px; cursor: pointer; font-size: 18px; z-index: 1; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
-        .carrossel-prev { left: 10px; } .carrossel-next { right: 10px; }
+        .post-time {
+            font-size: 11px;
+            color: #888;
+            margin-top: 2px;
+        }
 
-        /* Filtro de Blur Forte (+18 / Sensível) */
-        .media-blur { filter: blur(40px) brightness(0.3); transition: filter 0.3s; cursor: pointer; }
-        .media-blur::after { content: '⚠️ Conteúdo Oculto (Clique para ver)'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; text-align: center; width: 100%; pointer-events: none; font-size: 14px; }
-        .media-blur.remover-blur { filter: none; }
-        .media-blur.remover-blur::after { display: none; }
+        .post-text {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+            color: #f0f0f0;
+        }
 
-        .post-actions { display: flex; gap: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 12px; margin-top: 15px; }
-        .btn-action { background: rgba(255, 255, 255, 0.02); padding: 8px 16px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
-        
+        /* Opções do Post (Menus Dinâmicos) */
+        .post-menu-btn {
+            background: none;
+            color: white;
+            padding: 0 10px;
+            font-size: 20px;
+            box-shadow: none;
+            border: none;
+        }
+
+        .post-menu-btn:hover { background: transparent; transform: none; color: #ff006e; box-shadow: none; }
+
+        .post-menu-dropdown {
+            display: none;
+            position: absolute;
+            right: 20px;
+            top: 50px;
+            background: #131324;
+            border: 1px solid #00d4ff;
+            border-radius: 8px;
+            z-index: 5;
+            min-width: 120px;
+            overflow: hidden;
+        }
+
+        .post-menu-dropdown span {
+            display: block;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .post-menu-dropdown span:last-child { border-bottom: none; }
+        .post-menu-dropdown span:hover { background: rgba(0, 212, 255, 0.1); }
+        .post-menu-dropdown span.denunciar { color: #ff006e; }
+
+        /* Galeria de Imagens e Sistema de Blur */
+        .image-grid {
+            display: grid;
+            gap: 5px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .blur-forte {
+            filter: blur(25px);
+            transition: filter 0.3s;
+        }
+
+        .blur-container { position: relative; }
+
+        .btn-remover-blur {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            border: 2px solid #ff006e;
+            padding: 12px 25px;
+            z-index: 2;
+            font-size: 13px;
+            border-radius: 20px;
+        }
+
         /* Comentários */
-        .comments-section { margin-top: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 12px; }
-        .comment-item { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 0; }
-        .comment-user { font-size: 13px; font-weight: bold; color: #ff006e; cursor: pointer; }
-        .comment-text { font-size: 13px; color: #ddd; margin: 4px 0; }
-        
-        /* Botões Flutuantes e Auxiliares */
-        .btn-flutuante { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; font-size: 30px; display: flex; align-items: center; justify-content: center; z-index: 5; box-shadow: 0 0 20px rgba(255, 0, 110, 0.5); }
-        .preview-multi-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-        .preview-thumb { width: 70px; height: 70px; border-radius: 6px; object-fit: cover; border: 1px solid #00d4ff; }
+        .comments-section {
+            margin-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+        }
 
+        .comment-item {
+            margin-top: 10px;
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            border-left: 2px solid #8338ec;
+        }
+
+        .comment-user {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ff006e;
+            cursor: pointer;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            color: #ddd;
+            margin: 6px 0;
+            line-height: 1.4;
+        }
+
+        .comment-img {
+            max-width: 150px;
+            border-radius: 8px;
+            margin-top: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-flutuante {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
+            padding: 0;
+        }
+
+        /* Responsividade */
         @media (max-width: 600px) {
-            body { align-items: flex-start; padding-top: 20px; }
-            .container-inicial h1 { font-size: 2.3rem; }
-            .botoes-iniciais { flex-direction: column; width: 100%; }
-            .botoes-iniciais button { width: 100%; }
+            .nav-links { gap: 10px; font-size: 13px; }
+            .nav-links input { width: 120px; }
+            .modal-content { padding: 20px; width: 95%; }
+            .perfil-nome { font-size: 22px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container-inicial">
+    <div class="container-inicial" id="telaInicial">
         <h1>TEATRALIZANDO</h1>
         <div class="botoes-iniciais">
             <button onclick="abrirModal('loginModal')">Login</button>
-            <button class="btn-cadastro" onclick="abrirModal('cadastroModal')">Cadastro</button>
-            <button class="btn-sobre" onclick="abrirModal('sobreModal')">Sobre a Plataforma</button>
+            <button class="btn-secundario" onclick="abrirModal('cadastroModal')">Cadastro</button>
         </div>
     </div>
 
     <div id="loginModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h2>Login</h2><span class="close" onclick="fecharModal('loginModal')">&times;</span></div>
+            <div class="modal-header">
+                <h2>Login</h2>
+                <span class="close" onclick="fecharModal('loginModal')">&times;</span>
+            </div>
             <input type="email" id="loginEmail" placeholder="seu@email.com">
             <input type="password" id="loginSenha" placeholder="sua senha">
-            <button onclick="entrar()" style="width:100%; margin-top:15px;">Entrar</button>
+            <button onclick="entrar()" style="width: 100%; margin-top: 15px;">Entrar</button>
         </div>
     </div>
 
     <div id="cadastroModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h2>Cadastro</h2><span class="close" onclick="fecharModal('cadastroModal')">&times;</span></div>
-            <input type="text" id="cadUsuario" placeholder="seu usuário">
-            <input type="email" id="cadEmail" placeholder="seu@email.com">
-            <input type="password" id="cadSenha" placeholder="sua senha">
-            <input type="text" id="cadBio" placeholder="sua bio (opcional)">
-            <button onclick="cadastrar()" style="width:100%; margin-top:15px;">Cadastrar</button>
-        </div>
-    </div>
-
-    <div id="sobreModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header"><h2>Sobre</h2><span class="close" onclick="fecharModal('sobreModal')">&times;</span></div>
-            <p><strong>Versão:</strong> 1.1.0 (Atualizado)</p>
-            <p>Rede social teatral com suporte multimídia avançado e controle de privacidade.</p>
+            <div class="modal-header">
+                <h2>Cadastro</h2>
+                <span class="close" onclick="fecharModal('cadastroModal')">&times;</span>
+            </div>
+            <p style="font-size: 12px; color: #00d4ff; margin-bottom: 5px;">Atenção: Idade define as regras de segurança (blur).</p>
+            <input type="text" id="cadUsuario" placeholder="Nome de Usuário">
+            <input type="email" id="cadEmail" placeholder="Email">
+            <input type="password" id="cadSenha" placeholder="Senha">
+            <input type="number" id="cadIdade" placeholder="Sua Idade (ex: 15)" min="10" max="100">
+            <button onclick="cadastrar()" style="width: 100%; margin-top: 15px;">Cadastrar</button>
         </div>
     </div>
 
     <div class="container-feed" id="feedSection">
-        <div class="feed-header">
-            <h2 style="cursor:pointer;" onclick="mostrarFeedGeral()">🎭 Teatralizando</h2>
-            <div style="display:flex; gap:10px;">
-                <button class="btn-action" onclick="abrirMeuPerfil()">👤 Perfil</button>
-                <button class="btn-action" style="background:#ff006e;" onclick="window.location.reload()">Sair</button>
+        <div class="navbar">
+            <h2 style="color: #ff006e; margin:0; font-size: 18px; cursor: pointer;" onclick="carregarFeedPrincipal()">🎭 Teatralizando</h2>
+            <div class="nav-links">
+                <input type="text" id="inputPesquisa" placeholder="Buscar perfil..." onkeyup="pesquisarUsuario(event)">
+                <span onclick="abrirMeuPerfil()">Perfil</span>
+                <span onclick="abrirConfiguracoes()">⚙️</span>
+                <span onclick="sair()">Sair</span>
             </div>
         </div>
-        <div class="search-box">
-            <input type="text" id="inputBusca" placeholder="Pesquisar por @usuario...">
-            <button onclick="buscarUsuario()" style="padding:10px 20px;">Buscar</button>
-        </div>
-        <div id="feedContainer"></div>
+        
+        <div id="conteudoPrincipal"></div>
+        
         <button class="btn-flutuante" onclick="abrirModal('criarPostModal')">+</button>
-    </div>
-
-    <div class="container-perfil" id="perfilSection">
-        <div class="perfil-header">
-            <button onclick="voltarAoFeed()" style="padding:8px 16px; font-size:12px;">⬅ Voltar</button>
-            <h2 id="perfilTitulo">@usuario</h2>
-            <button id="btnConfigPerfil" class="btn-action" onclick="abrirModal('configModal')">⚙️</button>
-        </div>
-        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <p id="perfilBio" style="font-style: italic; color:#bbb; margin-bottom: 10px;">Sem bio definida.</p>
-            <p id="perfilCurtidas" style="color:#00d4ff; font-weight:bold;">Total de Curtidas ganhas: 0</p>
-        </div>
-        <h3 style="margin-bottom:15px; color:#ff006e;">Publicações</h3>
-        <div id="perfilPostsContainer"></div>
     </div>
 
     <div id="criarPostModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h2>Nova Publicação</h2><span class="close" onclick="fecharModal('criarPostModal')">&times;</span></div>
-            <textarea id="postTexto" rows="4" placeholder="No que está pensando?"></textarea>
-            <p style="font-size:12px; color:#00d4ff; margin-top:8px;">Adicione até 5 imagens:</p>
-            <input type="file" id="postMidias" accept="image/*" multiple onchange="previewImagens(event, 'previewCriarPost')">
-            <div id="previewCriarPost" class="preview-multi-container"></div>
-            <button id="btnEnviarPost" onclick="criarPost()" style="width:100%; margin-top:15px;">Publicar</button>
+            <div class="modal-header">
+                <h2>Nova Publicação</h2>
+                <span class="close" onclick="fecharModal('criarPostModal')">&times;</span>
+            </div>
+            <textarea id="postTexto" rows="4" placeholder="Escreva algo ou poste fotos..."></textarea>
+            <p style="font-size: 12px; color: #00d4ff; margin-top: 10px; font-weight: bold;">Escolher Imagens (Máximo 5):</p>
+            <input type="file" id="postMidiaArquivo" accept="image/*" multiple>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button id="btnEnviarPost" onclick="criarPost()" style="flex: 1;">Publicar</button>
+                <button class="btn-cancelar" onclick="fecharModal('criarPostModal')" style="flex: 1;">Cancelar</button>
+            </div>
         </div>
     </div>
 
     <div id="editarPostModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h2>Editar Post</h2><span class="close" onclick="fecharModal('editarPostModal')">&times;</span></div>
-            <textarea id="editPostTexto" rows="4"></textarea>
-            <button onclick="salvarEdicaoPost()" style="width:100%; margin-top:15px;">Salvar Alterações</button>
+            <div class="modal-header">
+                <h2>Editar Publicação</h2>
+                <span class="close" onclick="fecharModal('editarPostModal')">&times;</span>
+            </div>
+            <input type="hidden" id="editPostId">
+            <p style="font-size: 12px; color: #888; margin-bottom: 10px;">Você só pode alterar o texto.</p>
+            <textarea id="editPostTexto" rows="5"></textarea>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button onclick="salvarEdicaoPost()" style="flex: 1;">Salvar Edição</button>
+                <button class="btn-cancelar" onclick="fecharModal('editarPostModal')" style="flex: 1;">Cancelar</button>
+            </div>
         </div>
     </div>
 
     <div id="configModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h2>Configurações do Perfil</h2><span class="close" onclick="fecharModal('configModal')">&times;</span></div>
-            <p style="font-size:13px; color:#00d4ff;">Editar Bio</p>
-            <input type="text" id="configBio" placeholder="Nova bio...">
-            
-            <div style="margin-top: 20px; padding: 15px; background:rgba(0,0,0,0.3); border-radius:8px;">
-                <p style="font-weight:bold; color:#ff006e; font-size:14px;">Controle de Privacidade (Blur)</p>
-                <p style="font-size:12px; color:#aaa; margin-bottom:10px;">Usuários menores de 18 anos ou que preferem segurança podem manter o desfoque obrigatório em mídias da rede.</p>
-                <select id="configBlur">
-                    <option value="ativado">Ativado (Desfocar imagens)</option>
-                    <option value="desativado">Desativado (Mostrar tudo livremente)</option>
-                </select>
+            <div class="modal-header">
+                <h2>Configurações do Perfil</h2>
+                <span class="close" onclick="fecharModal('configModal')">&times;</span>
             </div>
-            <button onclick="salvarConfiguracoes()" style="width:100%; margin-top:20px;">Salvar e Aplicar</button>
-        </div>
-    </div>
-
-    <div id="respostasModal" class="modal">
-        <div class="modal-content" style="max-width:550px;">
-            <div class="modal-header"><h2>Comentários e Respostas</h2><span class="close" onclick="fecharModal('respostasModal')">&times;</span></div>
-            <div id="listaRespostasContainer" style="max-height: 250px; overflow-y:auto; margin-bottom:15px;"></div>
             
-            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top:10px;">
-                <input type="text" id="novoTextoResposta" placeholder="Escreva um comentário...">
-                <p style="font-size:11px; color:#00d4ff; margin:5px 0;">Opcional: Até 5 fotos para o comentário:</p>
-                <input type="file" id="comentarioMidias" accept="image/*" multiple onchange="previewImagens(event, 'previewComentario')">
-                <div id="previewComentario" class="preview-multi-container"></div>
-                <button onclick="enviarResposta()" style="width:100%; margin-top:8px; padding:10px;">Enviar Comentário</button>
+            <div style="margin-bottom: 20px;">
+                <p style="margin-bottom: 10px; font-weight: bold; color: #00d4ff;">Escreva sua Bio:</p>
+                <textarea id="configBio" rows="3" placeholder="Fale um pouco sobre você..."></textarea>
             </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #333; padding-top: 20px;">
+                <div style="max-width: 70%;">
+                    <p style="color: #ff006e; font-weight: bold; font-size: 15px;">Filtro de Conteúdo (Blur)</p>
+                    <p style="font-size: 11px; color: #888; margin-top: 4px;">Ativa um desfoque automático em imagens sensíveis. Usuários menores de 18 anos não podem desativar este recurso.</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="configBlur">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <button onclick="salvarConfiguracoes()" style="width: 100%; margin-top: 25px;">Salvar Alterações</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, getDocs, where, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, query, orderBy, where, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+        // CHAVES DE ACESSO
         const firebaseConfig = {
             apiKey: "AIzaSyBppmxFZg2WpS0wBOpJFuK-I1u3C-WDbcE",
             authDomain: "teatro-af4c2.firebaseapp.com",
@@ -252,364 +643,498 @@
         };
         const IMGBB_API_KEY = "e5f0ddeda6761849c181825a2d43afb0"; 
 
+        // INICIALIZAÇÃO FIREBASE
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // VARIÁVEIS GLOBAIS
         let usuarioLogado = null;
-        let dadosPerfilLogado = { bio: "", blur: "ativado" };
-        let postagemAtualId = null; 
+        let dadosUsuario = null; // Armazena a bio, idade e configurações de blur do BD
         let listaPostsLocal = [];
-        let carrosselStatus = {};
+        let visualizandoPerfil = null; // Controla se estamos no feed global ou no perfil de alguém
+        let unsubPosts = null; // Variável para cancelar o listener antigo ao mudar de tela
 
-        // Observador de Autenticação
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                usuarioLogado = user;
-                const userUsername = user.email.split('@')[0];
-                
-                // Carrega ou inicializa perfil no Firestore
-                const perfilDoc = await getDoc(doc(db, "perfis", userUsername));
-                if (perfilDoc.exists()) {
-                    dadosPerfilLogado = perfilDoc.data();
-                } else {
-                    dadosPerfilLogado = { bio: "Entusiasta do Teatro", blur: "ativado" };
-                    await setDoc(doc(db, "perfis", userUsername), dadosPerfilLogado);
-                }
+        // ==========================================================
+        // 1. FUNÇÕES DE UTILIDADE E CONTROLE DE MODAIS
+        // ==========================================================
+        window.abrirModal = id => document.getElementById(id).style.display = "flex";
+        window.fecharModal = id => {
+            document.getElementById(id).style.display = "none";
+            if(id === 'criarPostModal') {
+                document.getElementById('postTexto').value = '';
+                document.getElementById('postMidiaArquivo').value = '';
+            }
+        };
+        window.onclick = e => { if (e.target.classList.contains('modal')) e.target.style.display = "none"; };
 
-                document.querySelector('.container-inicial').style.display = 'none';
-                document.getElementById('feedSection').style.display = 'block';
-                escutarFeed(); 
+        // Fecha o menu dropdown se clicar fora
+        document.addEventListener('click', function(event) {
+            const isMenuBtn = event.target.classList.contains('post-menu-btn');
+            if (!isMenuBtn) {
+                document.querySelectorAll('.post-menu-dropdown').forEach(menu => {
+                    menu.style.display = 'none';
+                });
             }
         });
 
-        // Modais globais
-        window.abrirModal = function(id) { 
-            if(id === 'configModal') {
-                document.getElementById('configBio').value = dadosPerfilLogado.bio || "";
-                document.getElementById('configBlur').value = dadosPerfilLogado.blur || "ativado";
-            }
-            document.getElementById(id).style.display = "flex"; 
-        }
-        window.fecharModal = function(id) { 
-            document.getElementById(id).style.display = "none"; 
-            if(id === 'criarPostModal') {
-                document.getElementById('postTexto').value = '';
-                document.getElementById('postMidias').value = '';
-                document.getElementById('previewCriarPost').innerHTML = '';
-            }
-            if(id === 'respostasModal') {
-                document.getElementById('comentarioMidias').value = '';
-                document.getElementById('previewComentario').innerHTML = '';
-            }
-        }
+        // ==========================================================
+        // 2. SISTEMA DE AUTENTICAÇÃO E PERFIL DO USUÁRIO
+        // ==========================================================
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                usuarioLogado = user;
+                const nomeUsuario = user.email.split('@')[0];
+                
+                // Busca os dados extras no Firestore (Bio, Idade, Blur)
+                const docRef = doc(db, "usuarios", nomeUsuario);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    dadosUsuario = docSnap.data();
+                } else {
+                    // Fallback de segurança se o documento não existir
+                    dadosUsuario = { idade: 18, blurAtivado: false, bio: "" };
+                }
 
-        // Preview local para múltiplas imagens
-        window.previewImagens = function(event, containerId) {
-            const arquivos = event.target.files;
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            if(arquivos.length > 5) {
-                alert("Você pode escolher no máximo 5 imagens.");
-                event.target.value = '';
-                return;
+                document.getElementById('telaInicial').style.display = 'none';
+                document.getElementById('feedSection').style.display = 'block';
+                carregarFeedPrincipal();
+            } else {
+                usuarioLogado = null;
+                dadosUsuario = null;
+                document.getElementById('telaInicial').style.display = 'block';
+                document.getElementById('feedSection').style.display = 'none';
+                if(unsubPosts) unsubPosts();
             }
-            Array.from(arquivos).forEach(file => {
-                const img = document.createElement('img');
-                img.src = URL.createObjectURL(file);
-                img.className = 'preview-thumb';
-                container.appendChild(img);
-            });
-        }
+        });
 
-        // Upload de múltiplas mídias via ImgBB
-        async function uploadMultiplasImagens(arquivos) {
-            let urls = [];
-            for (let i = 0; i < Math.min(arquivos.length, 5); i++) {
+        window.cadastrar = async function() {
+            const usuario = document.getElementById('cadUsuario').value.trim();
+            const email = document.getElementById('cadEmail').value;
+            const senha = document.getElementById('cadSenha').value;
+            const idade = parseInt(document.getElementById('cadIdade').value);
+
+            if (!usuario || !email || !senha || !idade) return alert('Por favor, preencha todos os campos!');
+            if (usuario.includes(" ")) return alert('O nome de usuário não pode ter espaços.');
+            
+            try {
+                // Cria autenticação Firebase
+                await createUserWithEmailAndPassword(auth, email, senha);
+                
+                // Cria documento exclusivo do usuário no banco
+                await setDoc(doc(db, "usuarios", usuario), {
+                    nome: usuario,
+                    idade: idade,
+                    bio: "Olá! Acabei de entrar no Teatralizando.",
+                    blurAtivado: idade < 18 ? true : false, // Regra obrigatória: Menores tem blur automático ativado
+                    criadoEm: Date.now()
+                });
+                
+                fecharModal('cadastroModal');
+            } catch (e) { alert("Erro ao cadastrar: " + e.message); }
+        };
+
+        window.entrar = () => {
+            const email = document.getElementById('loginEmail').value;
+            const senha = document.getElementById('loginSenha').value;
+            signInWithEmailAndPassword(auth, email, senha)
+                .then(() => fecharModal('loginModal'))
+                .catch(() => alert('Dados incorretos ou usuário não existe.'));
+        };
+
+        window.sair = () => signOut(auth);
+
+        // ==========================================================
+        // 3. CONFIGURAÇÕES DA CONTA (BLUR E BIO)
+        // ==========================================================
+        window.abrirConfiguracoes = () => {
+            document.getElementById('configBio').value = dadosUsuario.bio || "";
+            const blurToggle = document.getElementById('configBlur');
+            
+            blurToggle.checked = dadosUsuario.blurAtivado;
+            
+            // Bloqueia a chave de desativar blur se for menor de idade
+            if (dadosUsuario.idade < 18) {
+                blurToggle.disabled = true;
+            } else {
+                blurToggle.disabled = false;
+            }
+            
+            abrirModal('configModal');
+        };
+
+        window.salvarConfiguracoes = async () => {
+            const novaBio = document.getElementById('configBio').value.trim();
+            let novoBlur = document.getElementById('configBlur').checked;
+            
+            // Verificação de segurança extra no código
+            if (dadosUsuario.idade < 18) novoBlur = true;
+
+            const nomeUsuario = usuarioLogado.email.split('@')[0];
+            
+            try {
+                await updateDoc(doc(db, "usuarios", nomeUsuario), { 
+                    bio: novaBio, 
+                    blurAtivado: novoBlur 
+                });
+                
+                // Atualiza em memória
+                dadosUsuario.bio = novaBio;
+                dadosUsuario.blurAtivado = novoBlur;
+                
+                fecharModal('configModal');
+                
+                // Recarrega a tela atual para aplicar as mudanças de Blur/Bio
+                if (visualizandoPerfil === nomeUsuario) {
+                    abrirMeuPerfil();
+                } else if (visualizandoPerfil === null) {
+                    carregarFeedPrincipal();
+                }
+                
+                alert("Configurações salvas com sucesso!");
+            } catch(e) {
+                alert("Erro ao salvar: " + e.message);
+            }
+        };
+
+        // ==========================================================
+        // 4. SISTEMA DE PUBLICAÇÃO DE POSTS E IMAGENS MÚLTIPLAS
+        // ==========================================================
+        async function uploadMultiplasImagens(files) {
+            const urls = [];
+            const max = Math.min(files.length, 5); // Garante que apenas 5 imagens passem
+            
+            for (let i = 0; i < max; i++) {
                 const formData = new FormData();
-                formData.append('image', arquivos[i]);
+                formData.append('image', files[i]);
                 try {
-                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: formData });
-                    const json = await res.json();
-                    if(json.success) urls.push(json.data.url);
-                } catch (e) { console.error("Erro no upload de uma imagem: ", e); }
+                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { 
+                        method: 'POST', 
+                        body: formData 
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        urls.push(data.data.url);
+                    }
+                } catch (e) { console.error("Erro no upload da imagem no imgbb", e); }
             }
             return urls;
         }
 
-        // Cadastro e Login básicos
-        window.cadastrar = function() {
-            const usuario = document.getElementById('cadUsuario').value.trim();
-            const email = document.getElementById('cadEmail').value;
-            const senha = document.getElementById('cadSenha').value;
-            const bio = document.getElementById('cadBio').value || "Membro do Teatralizando";
-            if (!usuario || !email || !senha) return alert('Campos obrigatórios ausentes.');
-
-            createUserWithEmailAndPassword(auth, email, senha).then(async (cred) => {
-                await setDoc(doc(db, "perfis", usuario.toLowerCase()), { bio: bio, blur: "ativated" });
-                fecharModal('cadastroModal');
-            }).catch(e => alert(e.message));
-        };
-
-        window.entrar = function() {
-            signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginSenha').value)
-                .then(() => fecharModal('loginModal')).catch(() => alert('Dados incorretos.'));
-        };
-
-        // Salvar Perfil e Alterar Blur
-        window.salvarConfiguracoes = async function() {
-            const novaBio = document.getElementById('configBio').value;
-            const novoBlur = document.getElementById('configBlur').value;
-            const userUsername = usuarioLogado.email.split('@')[0];
-
-            dadosPerfilLogado = { bio: novaBio, blur: novoBlur };
-            await setDoc(doc(db, "perfis", userUsername), dadosPerfilLogado);
-            alert("Configurações atualizadas!");
-            fecharModal('configModal');
-            escutarFeed(); // Força re-renderização das mídias com o novo filtro aplicado
-        }
-
-        // CRUD: Criar Postagem
         window.criarPost = async function() {
             const texto = document.getElementById('postTexto').value.trim();
-            const arquivos = document.getElementById('postMidias').files;
+            const arquivos = document.getElementById('postMidiaArquivo').files;
             const btn = document.getElementById('btnEnviarPost');
 
-            if (!texto && arquivos.length === 0) return alert('O post precisa de texto ou imagem.');
-            btn.disabled = true; btn.innerText = "Publicando...";
+            if (!texto && arquivos.length === 0) return alert('Escreva um texto ou selecione ao menos uma imagem.');
 
-            let linksImagens = await uploadMultiplasImagens(arquivos);
+            btn.disabled = true; 
+            btn.innerText = "Publicando... aguarde";
 
-            await addDoc(collection(db, "posts"), {
-                texto: texto,
-                midias: linksImagens,
-                usuario: usuarioLogado.email.split('@')[0],
-                criadoEm: Date.now(),
-                curtidas: 0,
-                comentarios: []
-            });
+            try {
+                // Faz upload de tudo primeiro
+                const urlsImagens = await uploadMultiplasImagens(arquivos);
 
-            fecharModal('criarPostModal');
-            btn.disabled = false; btn.innerText = "Publicar";
+                // Salva no banco de dados
+                await addDoc(collection(db, "posts"), {
+                    texto: texto,
+                    imagens: urlsImagens,
+                    usuario: usuarioLogado.email.split('@')[0],
+                    criadoEm: Date.now(),
+                    curtidas: 0,
+                    comentarios: []
+                });
+
+                fecharModal('criarPostModal');
+                
+            } catch (error) { 
+                alert("Erro ao publicar: Verifique as regras do Firebase. " + error.message); 
+            } finally { 
+                btn.disabled = false; 
+                btn.innerText = "Publicar"; 
+            }
         };
 
-        // Renderizador e Escutador em tempo real do Feed Geral
-        function escutarFeed() {
-            const q = query(collection(db, "posts"), orderBy("criadoEm", "desc"));
-            onSnapshot(q, (snapshot) => {
-                listaPostsLocal = [];
-                snapshot.forEach(docSnap => listaPostsLocal.push({ id: docSnap.id, ...docSnap.data() }));
-                renderizarPosts(listaPostsLocal, 'feedContainer');
-            });
+        // ==========================================================
+        // 5. RENDERIZAÇÃO E NAVEGAÇÃO (FEED GLOBAL VS PERFIL)
+        // ==========================================================
+        window.carregarFeedPrincipal = () => {
+            visualizandoPerfil = null; // Indica que não estamos em um perfil
+            const consulta = query(collection(db, "posts"), orderBy("criadoEm", "desc"));
+            escutarPosts(consulta, 'conteudoPrincipal');
+        };
+
+        window.abrirMeuPerfil = () => {
+            renderizarPerfil(usuarioLogado.email.split('@')[0]);
+        };
+
+        window.pesquisarUsuario = (e) => {
+            if (e.key === 'Enter') {
+                const busca = e.target.value.trim().replace('@', ''); // Remove o @ se o usuário digitar
+                if (busca) renderizarPerfil(busca);
+                e.target.value = '';
+            }
+        };
+
+        async function renderizarPerfil(nomeUsuarioPesquisado) {
+            visualizandoPerfil = nomeUsuarioPesquisado;
+            const container = document.getElementById('conteudoPrincipal');
+            container.innerHTML = '<p style="text-align:center; padding: 40px;">Buscando informações do perfil...</p>';
+
+            // 1. Pega os dados deste usuário específico na coleção de usuários
+            const docSnap = await getDoc(doc(db, "usuarios", nomeUsuarioPesquisado));
+            
+            let bioTexto = "Este usuário não definiu uma biografia ainda.";
+            if (docSnap.exists() && docSnap.data().bio) {
+                bioTexto = docSnap.data().bio;
+            }
+
+            // 2. Constrói o Header da Página de Perfil
+            const headerHTML = `
+                <div class="perfil-header">
+                    <div class="perfil-nome">@${nomeUsuarioPesquisado}</div>
+                    <div class="perfil-bio">${bioTexto}</div>
+                    <button onclick="carregarFeedPrincipal()" class="btn-cancelar" style="padding: 10px 20px; font-size:12px;">Voltar ao Feed Global</button>
+                </div>
+                <div id="postsDoPerfil"></div>
+            `;
+            container.innerHTML = headerHTML;
+
+            // 3. Faz a busca EXCLUSIVA dos posts onde "usuario" é igual ao pesquisado
+            const consulta = query(collection(db, "posts"), where("usuario", "==", nomeUsuarioPesquisado));
+            escutarPosts(consulta, 'postsDoPerfil');
         }
 
-        // Construtor Visual Dinâmico de Carrossel de Imagens e Componentes
-        function renderizarPosts(posts, containerId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
+        // ==========================================================
+        // 6. MOTOR DE RENDERIZAÇÃO DE POSTS (COMPARTILHADO)
+        // ==========================================================
+        function escutarPosts(consultaFirebase, containerIdDestino) {
+            // Se já tem um monitoramento acontecendo na tela anterior, desliga ele
+            if (unsubPosts) unsubPosts(); 
 
-            posts.forEach(post => {
-                const euSouDono = post.usuario === usuarioLogado.email.split('@')[0];
+            unsubPosts = onSnapshot(consultaFirebase, (snapshot) => {
+                const container = document.getElementById(containerIdDestino);
+                if (!container) return; // Segurança caso o usuário saia muito rápido da tela
                 
-                // Geração do Carrossel de imagens se houver mídias
-                let carrosselHTML = '';
-                if(post.midias && post.midias.length > 0) {
-                    const idUnicoCarrossel = `carrossel_${post.id}`;
-                    carrosselStatus[idUnicoCarrossel] = 0;
+                container.innerHTML = '';
+                listaPostsLocal = [];
+                let contadorCurtidasPerfil = 0; 
 
-                    let slides = post.midias.map((url, index) => `
-                        <div class="carrossel-slide">
-                            <img src="${url}" class="${dadosPerfilLogado.blur === 'ativado' ? 'media-blur' : ''}" onclick="this.classList.toggle('remover-blur')">
-                        </div>
-                    `).join('');
+                // Transforma o snapshot num array normal e ordena do mais novo pro mais velho
+                // (O where() e orderBy() do Firebase as vezes precisam de index composto, 
+                // então ordenamos no JS para evitar falhas de permissão de index).
+                const arrayDePosts = [];
+                snapshot.forEach(docSnap => arrayDePosts.push({ id: docSnap.id, ...docSnap.data() }));
+                arrayDePosts.sort((a, b) => b.criadoEm - a.criadoEm);
 
-                    let botoesNavegacao = post.midias.length > 1 ? `
-                        <button class="carrossel-btn carrossel-prev" onclick="moverCarrossel('${idUnicoCarrossel}', -1)">❮</button>
-                        <button class="carrossel-btn carrossel-next" onclick="moverCarrossel('${idUnicoCarrossel}', 1)">❯</button>
-                    ` : '';
-
-                    carrosselHTML = `
-                        <div class="carrossel" id="${idUnicoCarrossel}">
-                            <div class="carrossel-slides">${slides}</div>
-                            ${botoesNavegacao}
-                        </div>
-                    `;
+                if (arrayDePosts.length === 0) {
+                    container.innerHTML = `<p style="text-align:center; color:#888; padding: 40px;">Nenhuma publicação encontrada nesta aba.</p>`;
+                    return;
                 }
 
-                const postCard = document.createElement('div');
-                postCard.className = 'post-card';
-                postCard.innerHTML = `
-                    <div class="post-top">
-                        <div class="post-user" onclick="verPerfilOutro('${post.usuario}')">@${post.usuario}</div>
-                        <div class="post-menu-btn" onclick="toggleMenuPost('${post.id}')">⋮</div>
-                        <div class="post-menu-options" id="menu_${post.id}">
-                            ${euSouDono ? `
-                                <div onclick="abrirEditarPost('${post.id}', '${post.texto}')">Editar Texto</div>
-                                <div style="color:#ff006e;" onclick="deletarPost('${post.id}')">Apagar Post</div>
-                            ` : `
-                                <div onclick="denunciarPost('${post.id}')">🚨 Denunciar Post</div>
-                            `}
+                arrayDePosts.forEach((post) => {
+                    listaPostsLocal.push(post);
+                    contadorCurtidasPerfil += (post.curtidas || 0);
+
+                    // ==================================
+                    // MENU DE OPÇÕES (Editar, Apagar, Denunciar)
+                    // ==================================
+                    const donoDoPost = post.usuario === usuarioLogado.email.split('@')[0];
+                    const menuOpcoesHTML = `
+                        <div style="position:relative;">
+                            <button class="post-menu-btn" onclick="document.getElementById('menu-${post.id}').style.display = 'block'">⋮</button>
+                            <div id="menu-${post.id}" class="post-menu-dropdown">
+                                ${donoDoPost ? `
+                                    <span onclick="abrirEdicao('${post.id}')">✏️ Editar Post</span>
+                                    <span onclick="deletarPost('${post.id}')" style="color:#ff006e;">🗑️ Apagar</span>
+                                ` : `
+                                    <span class="denunciar" onclick="denunciarPost('${post.id}')">⚠️ Denunciar</span>
+                                `}
+                            </div>
                         </div>
-                    </div>
-                    <div style="font-size:11px; color:#888; margin-bottom:10px;">${new Date(post.criadoEm).toLocaleString('pt-BR')}</div>
-                    <div class="post-text">${post.texto}</div>
-                    ${carrosselHTML}
-                    <div class="post-actions">
-                        <button class="btn-action" onclick="curtirPost('${post.id}')">❤️ ${post.curtidas}</button>
-                        <button class="btn-action" onclick="abrirJanelaComentarios('${post.id}')">💬 Comentários (${post.comentarios ? post.comentarios.length : 0})</button>
-                    </div>
-                `;
-                container.appendChild(postCard);
-            });
-        }
+                    `;
 
-        // Lógica Global de Navegação do Carrossel de Fotos
-        window.moverCarrossel = function(carrosselId, direcao) {
-            const carrosselEl = document.getElementById(carrosselId);
-            const slidesContainer = carrosselEl.querySelector('.carrossel-slides');
-            const totalSlides = slidesContainer.children.length;
-            
-            carrosselStatus[carrosselId] = (carrosselStatus[carrosselId] + direcao + totalSlides) % totalSlides;
-            slidesContainer.style.transform = `translateX(-${carrosselStatus[carrosselId] * 100}%)`;
-        }
-
-        // Toggle para menu de três pontos de gerenciamento
-        window.toggleMenuPost = function(id) {
-            const menu = document.getElementById(`menu_${id}`);
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Ações CRUD e Moderação de Posts
-        window.curtirPost = async function(id) {
-            const p = listaPostsLocal.find(post => post.id === id);
-            await updateDoc(doc(db, "posts", id), { curtidas: p.curtidas + 1 });
-        }
-
-        window.abrirEditarPost = function(id, textoAtual) {
-            postagemAtualId = id;
-            document.getElementById('editPostTexto').value = textoAtual;
-            abrirModal('editarPostModal');
-        }
-
-        window.salvarEdicaoPost = async function() {
-            const novoTexto = document.getElementById('editPostTexto').value.trim();
-            if(!novoTexto) return;
-            await updateDoc(doc(db, "posts", postagemAtualId), { texto: novoTexto });
-            fecharModal('editarPostModal');
-        }
-
-        window.deletarPost = async function(id) {
-            if(confirm("Deseja realmente excluir permanentemente este post?")) {
-                await deleteDoc(doc(db, "posts", id));
-            }
-        }
-
-        window.denunciarPost = async function(id) {
-            await addDoc(collection(db, "denuncias"), {
-                postId: id,
-                denunciadoPor: usuarioLogado.email.split('@')[0],
-                dataDenuncia: Date.now()
-            });
-            alert("A publicação foi enviada para a moderação de conteúdo com sucesso.");
-        }
-
-        // SISTEMA DE INTERAÇÃO COM COMENTÁRIOS E RESPOSTAS (Com mídias suportadas)
-        window.abrirJanelaComentarios = function(id) {
-            postagemAtualId = id;
-            const p = listaPostsLocal.find(post => post.id === id);
-            
-            const container = document.getElementById('listaRespostasContainer');
-            container.innerHTML = '';
-
-            if(p.comentarios && p.comentarios.length > 0) {
-                p.comentarios.forEach(com => {
-                    let mídiasComentarioHTML = '';
-                    if(com.midias && com.midias.length > 0) {
-                        mídiasComentarioHTML = `<div style="display:flex; gap:5px; margin-top:5px;">` + 
-                            com.midias.map(url => `<img src="${url}" style="width:50px; height:50px; border-radius:4px; object-fit:cover;" class="${dadosPerfilLogado.blur === 'ativado' ? 'media-blur' : ''}" onclick="this.classList.toggle('remover-blur')">`).join('') + `</div>`;
+                    // ==================================
+                    // GALERIA DE IMAGENS E LÓGICA DE BLUR
+                    // ==================================
+                    let imagensRenderizadasHTML = '';
+                    if (post.imagens && post.imagens.length > 0) {
+                        // Verifica se as configs do usuário exigem blur
+                        const aplicarBlur = dadosUsuario.blurAtivado ? 'blur-forte' : '';
+                        
+                        // Monta as tags <img>
+                        const tagsDeImg = post.imagens.map(url => `<img src="${url}">`).join('');
+                        
+                        imagensRenderizadasHTML = `
+                            <div class="blur-container" id="blur-box-${post.id}">
+                                <div class="image-grid ${aplicarBlur}" id="grid-${post.id}">${tagsDeImg}</div>
+                                ${dadosUsuario.blurAtivado ? `<button class="btn-remover-blur" onclick="removerBlur('${post.id}')">👁️ Visualizar Imagens</button>` : ''}
+                            </div>
+                        `;
                     }
 
-                    const div = document.createElement('div');
-                    div.className = 'comment-item';
-                    div.innerHTML = `
-                        <div class="comment-user" onclick="fecharModal('respostasModal'); verPerfilOutro('${com.usuario}');">@${com.usuario}</div>
-                        <div class="comment-text">${com.texto}</div>
-                        ${mídiasComentarioHTML}
+                    // ==================================
+                    // SISTEMA DE COMENTÁRIOS COM IMAGEM
+                    // ==================================
+                    let blocoDeComentariosHTML = '';
+                    if (post.comentarios && post.comentarios.length > 0) {
+                        blocoDeComentariosHTML = post.comentarios.map(coment => `
+                            <div class="comment-item">
+                                <div class="comment-user" onclick="renderizarPerfil('${coment.usuario}')">@${coment.usuario}</div>
+                                <div class="comment-text">${coment.texto}</div>
+                                ${coment.imagem ? `<img class="comment-img" src="${coment.imagem}">` : ''}
+                            </div>
+                        `).join('');
+                    }
+
+                    // CAIXA DE NOVO COMENTÁRIO
+                    const caixaNovoComentarioHTML = `
+                        <div style="display:flex; flex-wrap:wrap; gap:10px; align-items: center; margin-bottom: 15px;">
+                            <input type="text" id="comentTxt_${post.id}" placeholder="Escreva um comentário..." style="flex:1; padding:10px; font-size:13px; margin:0;">
+                            <input type="file" id="comentImg_${post.id}" accept="image/*" style="width:110px; padding:8px; font-size:11px; margin:0;" title="Adicionar Imagem">
+                            <button onclick="enviarComentario('${post.id}')" style="padding:10px 20px; font-size:12px;">Enviar</button>
+                        </div>
                     `;
-                    container.appendChild(div);
+
+                    // ==================================
+                    // CONSTRUÇÃO FINAL DO CARD DO POST
+                    // ==================================
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'post-card';
+                    cardElement.innerHTML = `
+                        <div class="post-header">
+                            <div>
+                                <div class="post-user" onclick="renderizarPerfil('${post.usuario}')">@${post.usuario}</div>
+                                <div class="post-time">${new Date(post.criadoEm).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short'})}</div>
+                            </div>
+                            ${menuOpcoesHTML}
+                        </div>
+                        
+                        <div class="post-text">${post.texto}</div>
+                        
+                        ${imagensRenderizadasHTML}
+                        
+                        <div style="display:flex; gap:15px; margin-top:15px; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
+                            <button class="btn-cancelar" style="padding: 8px 15px; font-size: 13px;" onclick="curtirPost('${post.id}')">❤️ Curtir (${post.curtidas || 0})</button>
+                        </div>
+                        
+                        <div class="comments-section">
+                            ${caixaNovoComentarioHTML}
+                            ${blocoDeComentariosHTML}
+                        </div>
+                    `;
+                    container.appendChild(cardElement);
                 });
-            } else {
-                container.innerHTML = `<p style="font-size:12px; color:#888; text-align:center; padding:10px;">Ninguém comentou ainda.</p>`;
-            }
-            abrirModal('respostasModal');
-        }
 
-        window.enviarResposta = async function() {
-            const txt = document.getElementById('novoTextoResposta').value.trim();
-            const arquivos = document.getElementById('comentarioMidias').files;
-            if(!txt && arquivos.length === 0) return;
-
-            let linksImagens = await uploadMultiplasImagens(arquivos);
-            const p = listaPostsLocal.find(post => post.id === postagemAtualId);
-
-            const novosComentarios = p.comentarios || [];
-            novosComentarios.push({
-                usuario: usuarioLogado.email.split('@')[0],
-                texto: txt,
-                midias: linksImagens,
-                criadoEm: Date.now()
+                // Se estamos na visualização do Perfil, adiciona o total de curtidas recebidas no Header
+                if (visualizandoPerfil && containerIdDestino === 'postsDoPerfil') {
+                    const header = document.querySelector('.perfil-header');
+                    if(header && !document.getElementById('statusCurtidas')) {
+                        header.innerHTML += `
+                            <div id="statusCurtidas" class="perfil-status">
+                                ❤️ Total de Curtidas nas publicações: ${contadorCurtidasPerfil}
+                            </div>
+                        `;
+                    }
+                }
             });
-
-            await updateDoc(doc(db, "posts", postagemAtualId), { comentarios: novosComentarios });
-            document.getElementById('novoTextoResposta').value = '';
-            fecharModal('respostasModal');
         }
 
-        // LOGICA DE VISUALIZAÇÃO DE PERFIL E PESQUISA AVANÇADA
-        window.abrirMeuPerfil = function() {
-            verPerfilOutro(usuarioLogado.email.split('@')[0]);
-        }
+        // ==========================================================
+        // 7. AÇÕES E INTERAÇÕES COM POSTAGENS
+        // ==========================================================
+        
+        // Remove o Blur apenas para a imagem clicada
+        window.removerBlur = (idDoPost) => {
+            document.getElementById(`grid-${idDoPost}`).classList.remove('blur-forte');
+            document.querySelector(`#blur-box-${idDoPost} .btn-remover-blur`).style.display = 'none';
+        };
 
-        window.verPerfilOutro = async function(username) {
-            document.getElementById('feedSection').style.display = 'none';
-            document.getElementById('perfilSection').style.display = 'block';
-            document.getElementById('perfilTitulo').innerText = `@${username}`;
+        // Adiciona 1 curtida ao post
+        window.curtirPost = (idDoPost) => {
+            const post = listaPostsLocal.find(p => p.id === idDoPost);
+            updateDoc(doc(db, "posts", idDoPost), { curtidas: (post.curtidas || 0) + 1 });
+        };
 
-            // Mostra ou esconde botão de configuração dependendo de quem está olhando
-            const eMeuPerfil = username === usuarioLogado.email.split('@')[0];
-            document.getElementById('btnConfigPerfil').style.display = eMeuPerfil ? 'block' : 'none';
+        // Lógica completa de Comentários (com suporte a imagem via ImgBB)
+        window.enviarComentario = async (idDoPost) => {
+            const texto = document.getElementById(`comentTxt_${idDoPost}`).value.trim();
+            const arquivoDeImagem = document.getElementById(`comentImg_${idDoPost}`).files[0];
+            
+            if(!texto && !arquivoDeImagem) return alert("Comentário não pode ser vazio.");
 
-            // Carrega dados da Bio e Perfil do Firestore
-            const perfilSnap = await getDoc(doc(db, "perfis", username));
-            if(perfilSnap.exists()) {
-                document.getElementById('perfilBio').innerText = perfilSnap.data().bio || "Sem bio definida.";
-            } else {
-                document.getElementById('perfilBio').innerText = "Membro do Teatralizando.";
+            let linkDaImagemComentario = null;
+            
+            if(arquivoDeImagem) {
+                // Reaproveitamos a função que faz upload e pega o Link
+                const urls = await uploadMultiplasImagens([arquivoDeImagem]);
+                if(urls.length > 0) linkDaImagemComentario = urls[0];
             }
 
-            // Filtra publicações do autor e computa total de likes
-            const postsFiltrados = listaPostsLocal.filter(p => p.usuario === username);
-            let totalLikesAcumulados = 0;
-            postsFiltrados.forEach(p => totalLikesAcumulados += (p.curtidas || 0));
+            const postRef = doc(db, "posts", idDoPost);
+            
+            await updateDoc(postRef, {
+                comentarios: arrayUnion({
+                    usuario: usuarioLogado.email.split('@')[0],
+                    texto: texto,
+                    imagem: linkDaImagemComentario,
+                    criadoEm: Date.now()
+                })
+            });
+        };
 
-            document.getElementById('perfilCurtidas').innerText = `Total de curtidas ganhas: ❤️ ${totalLikesAcumulados}`;
-            renderizarPosts(postsFiltrados, 'perfilPostsContainer');
-        }
+        // ==========================================================
+        // 8. OPÇÕES EXCLUSIVAS DO MENU DE POST (EDITAR, DELETAR, DENUNCIAR)
+        // ==========================================================
+        
+        window.abrirEdicao = (idDoPost) => {
+            const post = listaPostsLocal.find(p => p.id === idDoPost);
+            document.getElementById('editPostId').value = idDoPost;
+            document.getElementById('editPostTexto').value = post.texto; // Carrega o texto antigo
+            
+            // Esconde o menu
+            document.getElementById(`menu-${idDoPost}`).style.display = 'none';
+            abrirModal('editarPostModal');
+        };
 
-        window.buscarUsuario = function() {
-            const busca = document.getElementById('inputBusca').value.trim().replace('@', '').toLowerCase();
-            if(busca) verPerfilOutro(busca);
-        }
+        window.salvarEdicaoPost = async () => {
+            const id = document.getElementById('editPostId').value;
+            const novoTexto = document.getElementById('editPostTexto').value;
+            
+            try {
+                await updateDoc(doc(db, "posts", id), { texto: novoTexto });
+                fecharModal('editarPostModal');
+            } catch (e) { alert("Erro ao editar: " + e.message); }
+        };
 
-        window.voltarAoFeed = function() {
-            document.getElementById('perfilSection').style.display = 'none';
-            document.getElementById('feedSection').style.display = 'block';
-        }
+        window.deletarPost = async (idDoPost) => {
+            document.getElementById(`menu-${idDoPost}`).style.display = 'none';
+            if(confirm("Tem certeza absoluta que deseja apagar este post? Esta ação não pode ser desfeita.")) {
+                try {
+                    await deleteDoc(doc(db, "posts", idDoPost));
+                } catch (e) { alert("Erro ao apagar: " + e.message); }
+            }
+        };
 
-        window.mostrarFeedGeral = function() {
-            voltarAoFeed();
-            escutarFeed();
-        }
+        window.denunciarPost = async (idDoPost) => {
+            document.getElementById(`menu-${idDoPost}`).style.display = 'none';
+            if(confirm("O conteúdo deste post viola as regras e deve ser reportado para a administração?")) {
+                try {
+                    // Grava em uma coleção separada para os adms verem
+                    await addDoc(collection(db, "denuncias"), {
+                        postId: idDoPost,
+                        denunciante: usuarioLogado.email.split('@')[0],
+                        dataDaDenuncia: Date.now(),
+                        status: "pendente"
+                    });
+                    alert("Agradecemos o aviso. A denúncia foi enviada e será analisada pelos administradores.");
+                } catch (e) {
+                    alert("Erro ao enviar denúncia: Permissões do Firebase necessárias.");
+                }
+            }
+        };
+
     </script>
 </body>
 </html>
