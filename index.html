@@ -313,6 +313,79 @@
                 width: 100%;
             }
         }
+        /*feed*/
+        /* ESTRUTURA DO FEED */
+.container-feed {
+    display: none;
+    width: 100%;
+    max-width: 650px;
+    z-index: 1;
+    margin: 0 auto;
+    padding-bottom: 100px;
+}
+
+.feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.post-card {
+    background: rgba(19, 19, 36, 0.7);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    text-align: left;
+}
+
+.post-user { font-weight: bold; color: #00d4ff; margin-bottom: 4px; font-size: 15px; }
+.post-time { font-size: 11px; color: #888; margin-bottom: 12px; }
+.post-text { font-size: 15px; line-height: 1.6; margin-bottom: 15px; color: #f0f0f0; white-space: pre-wrap; }
+
+.post-media-container img, .post-media-container video {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.post-actions { display: flex; gap: 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 12px; }
+
+.btn-action {
+    background: rgba(255, 255, 255, 0.02); box-shadow: none; padding: 8px 16px; font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 6px;
+}
+.btn-action:hover { background: rgba(0, 212, 255, 0.1); border-color: #00d4ff; }
+
+/* Comentários e Janela Separada de Respostas */
+.comments-section { margin-top: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; padding: 12px; }
+.comment-item { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 0; }
+.comment-user { font-size: 13px; font-weight: bold; color: #ff006e; }
+.comment-text { font-size: 13px; color: #ddd; margin: 2px 0 6px 0; }
+.comment-actions { display: flex; gap: 15px; font-size: 11px; color: #888; }
+.comment-actions span { cursor: pointer; }
+.comment-actions span:hover { color: #00d4ff; }
+.reply-box { border-left: 3px solid #8338ec; padding-left: 10px; margin: 8px 0 8px 15px; }
+
+/* Botão de Adicionar e Pré-visualização */
+.btn-flutuante {
+    position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%;
+    font-size: 30px; display: flex; align-items: center; justify-content: center; z-index: 5;
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
+}
+#previewContainer {
+    margin-top: 10px; max-height: 180px; overflow: hidden; border-radius: 8px; display: none;
+    border: 2px dashed #00d4ff;
+}
+#previewContainer img, #previewContainer video { width: 100%; height: 100%; object-fit: cover; }
     </style>
 </head>
 <body>
@@ -401,131 +474,333 @@
             </div>
         </div>
     </div>
+   <div class="container-feed" id="feedSection">
+    <div class="feed-header">
+        <h2>🎭 Teatralizando</h2>
+        <button class="btn-action" onclick="window.location.reload()">Sair</button>
+    </div>
+    <div id="feedContainer"></div>
+    <button class="btn-flutuante" onclick="abrirModal('criarPostModal')">+</button>
+</div>
 
-  
+<div id="criarPostModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Nova Publicação</h2>
+            <span class="close" onclick="fecharModal('criarPostModal')">&times;</span>
+        </div>
+        <div class="form-group">
+            <p>No que está pensando?</p>
+            <textarea id="postTexto" rows="4" placeholder="Escreva algo..."></textarea>
+        </div>
+        <div class="form-group">
+            <p>Escolher Imagem (Upload via API Grátis)</p>
+            <input type="file" id="postMidiaArquivo" accept="image/*" onchange="mostrarPreviewMidia(event)">
+            <div id="previewContainer"></div>
+        </div>
+        <div class="modal-buttons">
+            <button id="btnEnviarPost" onclick="criarPost()">Publicar</button>
+            <button class="btn-cancelar" onclick="fecharModal('criarPostModal')">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<div id="respostasModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Respostas</h2>
+            <span class="close" onclick="fecharModal('respostasModal')">&times;</span>
+        </div>
+        <div id="comentarioOriginalDestaque" style="padding-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1)"></div>
+        <div id="listaRespostasContainer" style="margin: 20px 0; max-height: 250px; overflow-y:auto;"></div>
+        <div class="form-group" style="margin-top:15px;">
+            <input type="text" id="novoTextoResposta" placeholder="Escreva sua resposta...">
+            <button onclick="enviarResposta()" style="width:100%; margin-top:8px; padding:10px;">Responder</button>
+        </div>
+    </div>
+</div>
 <script type="module">
-    // Importando as ferramentas do Firebase (adicionado o sendPasswordResetEmail)
+    // 1. Importando apenas Auth e Firestore Database (Sem Storage!)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc, onSnapshot, query, orderBy, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // CONFIGURAÇÃO DO SEU FIREBASE (Mantenha os seus dados reais aqui)
+    // 2. CONFIGURAÇÃO DO SEU FIREBASE
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCRYF7o4jmESm03_TrFs2fY22zxrRrHExg",
-  authDomain: "teatro-835db.firebaseapp.com",
-  projectId: "teatro-835db",
-  storageBucket: "teatro-835db.firebasestorage.app",
-  messagingSenderId: "862555541908",
-  appId: "1:862555541908:web:1a54005ce8f17428d7bf81",
-  measurementId: "G-13S0YEWKVX"
-};
+    const firebaseConfig = {
+        apiKey: "AIzaSyCRYF7o4jmESm03_TrFs2fY22zxrRrHExg",
+        authDomain: "teatro-835db.firebaseapp.com",
+        projectId: "teatro-835db",
+        storageBucket: "teatro-835db.firebasestorage.app",
+        messagingSenderId: "862555541908",
+        appId: "1:862555541908:web:1a54005ce8f17428d7bf81",
+        measurementId: "G-13S0YEWKVX"
+    };
+
+    // Cole aqui a chave que você pegou no Passo 1 (ImgBB)
+    const IMGBB_API_KEY = "e5f0ddeda6761849c181825a2d43afb0"; 
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // LISTA DE PALAVRAS PROIBIDAS (Filtro de ofensas)
-    // Dica: Adicione aqui os termos que você quer banir na sua plataforma, sempre em letras minúsculas.
-    const palavrasProibidas = ["palavrao1", "ofensa2", "toxicidade3", "admin"];
+    let usuarioLogado = null;
+    let postagemAtualId = null; 
+    let comentarioAtualId = null;
+    let listaPostsLocal = [];
 
+    // Filtro de nomes
+    const palavrasProibidas = ["palavrao1", "ofensa2", "admin"];
     function contemPalavrasPesadas(nome) {
-        const nomeMinusculo = nome.toLowerCase();
-        // Verifica se alguma palavra da lista está contida no nome de usuário
-        return palavrasProibidas.some(palavra => nomeMinusculo.includes(palavra));
+        return palavrasProibidas.some(palavra => nome.toLowerCase().includes(palavra));
     }
+
+    // Monitor do estado de Login
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            usuarioLogado = user;
+            document.querySelector('.container-inicial').style.display = 'none';
+            document.getElementById('feedSection').style.display = 'block';
+            escutarFeed(); 
+        } else {
+            usuarioLogado = null;
+        }
+    });
 
     // Funções de controle dos Modais
-    window.abrirModal = function(modalId) {
-        document.getElementById(modalId).style.display = "flex";
-    }
-
+    window.abrirModal = function(modalId) { document.getElementById(modalId).style.display = "flex"; }
     window.fecharModal = function(modalId) {
         document.getElementById(modalId).style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = "none";
+        if(modalId === 'criarPostModal') {
+            document.getElementById('postTexto').value = '';
+            document.getElementById('postMidiaArquivo').value = '';
+            document.getElementById('previewContainer').style.display = 'none';
         }
     }
+    window.onclick = function(e) { if (e.target.classList.contains('modal')) e.target.style.display = "none"; }
 
-    // LÓGICA DE CADASTRO (Com Filtro de Nome)
+    // Autenticação básica
     window.cadastrar = function() {
         const usuario = document.getElementById('cadUsuario').value.trim();
         const email = document.getElementById('cadEmail').value;
         const senha = document.getElementById('cadSenha').value;
+        if (!usuario || !email || !senha) return alert('Preencha os campos obrigatórios.');
+        if (contemPalavrasPesadas(usuario)) return alert('Nome não permitido.');
 
-        if (!usuario || !email || !senha) {
-            alert('Por favor, preencha todos os campos obrigatórios.');
-            return;
-        }
-
-        // Aplicando o filtro de palavras pesadas
-        if (contemPalavrasPesadas(usuario)) {
-            alert('Esse nome de usuário contém palavras não permitidas. Escolha outro.');
-            return;
-        }
-
-        createUserWithEmailAndPassword(auth, email, senha)
-            .then((userCredential) => {
-                alert('Cadastro realizado com sucesso!');
-                fecharModal('cadastroModal');
-            })
-            .catch((error) => {
-                let mensagemErro = "Erro ao cadastrar.";
-                if (error.code === 'auth/email-already-in-use') mensagemErro = 'Este e-mail já está em uso.';
-                if (error.code === 'auth/weak-password') mensagemErro = 'A senha deve ter pelo menos 6 caracteres.';
-                if (error.code === 'auth/invalid-email') mensagemErro = 'E-mail inválido.';
-                
-                alert(mensagemErro);
-                console.error(error);
-            });
+        createUserWithEmailAndPassword(auth, email, senha).then(() => fecharModal('cadastroModal')).catch(e => alert(e.message));
     };
 
-    // LÓGICA DE LOGIN
     window.entrar = function() {
         const email = document.getElementById('loginEmail').value;
         const senha = document.getElementById('loginSenha').value;
-
-        if (!email || !senha) {
-            alert('Por favor, preencha todos os campos.');
-            return;
-        }
-
-        signInWithEmailAndPassword(auth, email, senha)
-            .then((userCredential) => {
-                alert('Login efetuado com sucesso! Bem-vindo(a).');
-                fecharModal('loginModal');
-            })
-            .catch((error) => {
-                let mensagemErro = "Erro ao fazer login.";
-                if (error.code === 'auth/invalid-credential') mensagemErro = 'E-mail ou senha incorretos.';
-                
-                alert(mensagemErro);
-                console.error(error);
-            });
+        signInWithEmailAndPassword(auth, email, senha).then(() => fecharModal('loginModal')).catch(() => alert('Dados incorretos.'));
     };
 
-    // LÓGICA DE RECUPERAÇÃO DE SENHA POR E-MAIL
     window.recuperarSenha = function() {
         const email = document.getElementById('loginEmail').value.trim();
+        if (!email) return alert('Digite seu e-mail no campo de login primeiro.');
+        sendPasswordResetEmail(auth, email).then(() => alert('E-mail enviado!'));
+    };
 
-        if (!email) {
-            alert('Por favor, digite seu e-mail no campo de Login antes de clicar em "Esqueceu a senha?".');
-            return;
+    // 🌟 PREVIEW INSTANTÂNEO USANDO BLOB LOCAL (Sem gastar internet)
+    window.mostrarPreviewMidia = function(event) {
+        const arquivo = event.target.files[0];
+        const container = document.getElementById('previewContainer');
+        container.innerHTML = '';
+        if (arquivo) {
+            container.style.display = 'block';
+            const urlBlob = URL.createObjectURL(arquivo);
+            container.innerHTML = `<img src="${urlBlob}">`;
+        }
+    }
+
+    // 🌟 CRIAR POST: Envia para a API externa via HTTP POST e salva o link resultante no Firestore
+    window.criarPost = function() {
+        const texto = document.getElementById('postTexto').value.trim();
+        const arquivoMidia = document.getElementById('postMidiaArquivo').files[0];
+        const btn = document.getElementById('btnEnviarPost');
+
+        if (!texto && !arquivoMidia) return alert('Escreva ou selecione uma imagem.');
+
+        btn.disabled = true;
+        btn.innerText = "Publicando...";
+
+        let acaoDeUpload = Promise.resolve('');
+
+        // Se houver arquivo, faz o envio HTTP via API do ImgBB
+        if (arquivoMidia) {
+            const formData = new FormData();
+            formData.append('image', arquivoMidia);
+
+            acaoDeUpload = fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(resposta => resposta.json())
+            .then(resultado => {
+                if(resultado.success) return resultado.data.url; // Retorna o link direto da imagem
+                throw new Error('Falha na API de Imagem');
+            });
         }
 
-        sendPasswordResetEmail(auth, email)
-            .then(() => {
-                alert('Um e-mail de redefinição de senha foi enviado para: ' + email + '. Verifique sua caixa de entrada e lixo eletrônico (Spam).');
-            })
-            .catch((error) => {
-                let mensagemErro = "Erro ao enviar e-mail de recuperação.";
-                if (error.code === 'auth/invalid-email') mensagemErro = "O e-mail digitado não é válido.";
-                if (error.code === 'auth/user-not-found') mensagemErro = "Não encontramos nenhum usuário com esse e-mail.";
-                
-                alert(mensagemErro);
-                console.error(error);
+        // Salva as informações textuais junto com o link da imagem no Firestore Database (Gratuito)
+        acaoDeUpload.then((linkDaImagem) => {
+            return addDoc(collection(db, "posts"), {
+                texto: texto,
+                midiaUrl: linkDaImagem,
+                usuario: usuarioLogado.email.split('@')[0],
+                criadoEm: Date.now(),
+                curtidas: 0,
+                comentarios: []
             });
+        }).then(() => {
+            fecharModal('criarPostModal');
+        }).catch((err) => {
+            alert('Erro ao publicar post.');
+            console.error(err);
+        }).finally(() => {
+            btn.disabled = false;
+            btn.innerText = "Publicar";
+        });
+    };
+
+    // ESCUTADOR DO FEED (Do mais Novo ao mais Velho)
+    function escutarFeed() {
+        const consultaPosts = query(collection(db, "posts"), orderBy("criadoEm", "desc"));
+        onSnapshot(consultaPosts, (snapshot) => {
+            const container = document.getElementById('feedContainer');
+            container.innerHTML = '';
+            listaPostsLocal = [];
+
+            snapshot.forEach((docSnap) => {
+                const post = { id: docSnap.id, ...docSnap.data() };
+                listaPostsLocal.push(post);
+                
+                let mediaHTML = post.midiaUrl ? `<div class="post-media-container"><img src="${post.midiaUrl}"></div>` : '';
+
+                let comentariosHTML = post.comentarios.map(c => `
+                    <div class="comment-item">
+                        <div class="comment-user">@${c.usuario}</div>
+                        <div class="comment-text">${c.texto}</div>
+                        <div class="comment-actions">
+                            <span onclick="curtirComentario('${post.id}', '${c.id}')">❤️ ${c.curtidas || 0}</span>
+                            <span onclick="abrirAbaRespostas('${post.id}', '${c.id}')">💬 Responder (${c.respostas ? c.respostas.length : 0})</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                const postCard = document.createElement('div');
+                postCard.className = 'post-card';
+                postCard.innerHTML = `
+                    <div class="post-user">@${post.usuario}</div>
+                    <div class="post-time">${new Date(post.criadoEm).toLocaleString('pt-BR')}</div>
+                    <div class="post-text">${post.texto}</div>
+                    ${mediaHTML}
+                    <div class="post-actions">
+                        <button class="btn-action" onclick="curtirPost('${post.id}')">❤️ ${post.curtidas}</button>
+                        <button class="btn-action" onclick="compartilharPost('${post.id}')">🔗 Compartilhar</button>
+                    </div>
+                    <div class="comments-section">
+                        <div style="display:flex; gap:8px; margin-bottom:10px;">
+                            <input type="text" id="inputComent_${post.id}" placeholder="Comentar..." style="padding:8px; margin:0; font-size:13px;">
+                            <button onclick="comentarPost('${post.id}')" style="padding:8px 16px; font-size:12px;">Postar</button>
+                        </div>
+                        ${comentariosHTML}
+                    </div>
+                `;
+                container.appendChild(postCard);
+            });
+        });
+    }
+
+    // Ações das interações
+    window.curtirPost = function(id) {
+        const postRef = doc(db, "posts", id);
+        const post = listaPostsLocal.find(p => p.id === id);
+        updateDoc(postRef, { curtidas: post.curtidas + 1 });
+    };
+
+    window.comentarPost = function(id) {
+        const input = document.getElementById(`inputComent_${id}`);
+        if (!input.value.trim()) return;
+        const postRef = doc(db, "posts", id);
+        updateDoc(postRef, {
+            comentarios: arrayUnion({
+                id: `c_${Date.now()}`,
+                usuario: usuarioLogado.email.split('@')[0],
+                texto: input.value.trim(),
+                curtidas: 0,
+                respostas: []
+            })
+        }).then(() => { input.value = ''; });
+    };
+
+    window.curtirComentario = function(postId, comentId) {
+        const postRef = doc(db, "posts", postId);
+        const post = listaPostsLocal.find(p => p.id === postId);
+        const novosComentarios = post.comentarios.map(c => {
+            if (c.id === comentId) c.curtidas = (c.curtidas || 0) + 1;
+            return c;
+        });
+        updateDoc(postRef, { comentarios: novosComentarios });
+    };
+
+    window.compartilharPost = function(id) {
+        const post = listaPostsLocal.find(p => p.id === id);
+        navigator.clipboard.writeText(post.midiaUrl || window.location.href).then(() => alert('Link copiado!'));
+    };
+
+    // ABA INTERNA DE RESPOSTAS ISOLADAS
+    window.abrirAbaRespostas = function(postId, comentId) {
+        postagemAtualId = postId;
+        comentarioAtualId = comentId;
+        const post = listaPostsLocal.find(p => p.id === postId);
+        const comentario = post.comentarios.find(c => c.id === comentId);
+
+        document.getElementById('comentarioOriginalDestaque').innerHTML = `
+            <div class="comment-user" style="color:#00d4ff">@${comentario.usuario}</div>
+            <div class="comment-text" style="font-size:15px; margin-top:5px;">${comentario.texto}</div>
+        `;
+        atualizarListaRespostasInterface(comentario);
+        abrirModal('respostasModal');
+    };
+
+    function atualizarListaRespostasInterface(comentario) {
+        const container = document.getElementById('listaRespostasContainer');
+        container.innerHTML = '';
+        if(!comentario.respostas || comentario.respostas.length === 0) {
+            container.innerHTML = `<p style="font-size:13px; color:#666; text-align:center;">Nenhuma resposta ainda.</p>`;
+            return;
+        }
+        comentario.respostas.forEach(resp => {
+            const div = document.createElement('div');
+            div.className = 'reply-box';
+            div.innerHTML = `<div class="comment-user" style="font-size:12px;">@${resp.usuario}</div><div class="comment-text" style="font-size:13px;">${resp.texto}</div>`;
+            container.appendChild(div);
+        });
+    }
+
+    window.enviarResposta = function() {
+        const input = document.getElementById('novoTextoResposta');
+        if(!input.value.trim()) return;
+
+        const postRef = doc(db, "posts", postagemAtualId);
+        const post = listaPostsLocal.find(p => p.id === postagemAtualId);
+        let comentarioAlterado = null;
+
+        const novosComentarios = post.comentarios.map(c => {
+            if (c.id === comentarioAtualId) {
+                if (!c.respostas) c.respostas = [];
+                c.respostas.push({ usuario: usuarioLogado.email.split('@')[0], texto: input.value.trim() });
+                comentarioAlterado = c;
+            }
+            return c;
+        });
+
+        updateDoc(postRef, { comentarios: novosComentarios }).then(() => {
+            input.value = '';
+            atualizarListaRespostasInterface(comentarioAlterado);
+        });
     };
 </script>
 </body>
